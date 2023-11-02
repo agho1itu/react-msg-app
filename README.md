@@ -10,3 +10,5 @@ Instructions:
 3. Check that you are targeting the right folder, if not use command: 'cd filename'
 4. When you are in the right folder use command: 'npm i' to install.
 5. Use command 'npm start' to check if react is working right
+
+Hej jeg prøver lige at ændre noget
