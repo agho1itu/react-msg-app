@@ -1,9 +1,9 @@
+import WelcomePage from "./pages/WelcomePage";
+
 function App() {
   return (
-    <div className="App">
-      <h1>Let's Code Girlies</h1>
-    </div>
-  );
+    <WelcomePage />
+  )
 }
 
 export default App;
