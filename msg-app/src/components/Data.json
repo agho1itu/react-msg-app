@@ -1,0 +1,21 @@
+[{
+  "id": 1, 
+  "text": "Past Nord", 
+  "preview": "This is a preview",
+  "time": "14:45", 
+  "new": true
+},
+{
+  "id": 2, 
+  "text": "MitId", 
+  "preview": "This is a preview",
+  "time": "11:32", 
+  "new": false
+},
+{
+  "id": 3, 
+  "text": "Digital Post", 
+  "preview": "This is a preview",
+  "time": "16:19", 
+  "new": true
+}]
