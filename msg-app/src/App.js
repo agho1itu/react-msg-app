@@ -1,12 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import WelcomePage from "./pages/WelcomePage";
+import MessageListPage from './pages/MessageListPage';
+import ChatRoomPage from "./pages/ChatRoomPage";
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 
 function App() {
   return (
-    <div className="App">
-      <h1>Let's Code Girlies</h1>
-    </div>
-  );
+    <BrowserRouter>
+      <Link to='/'>Sign in</Link>
+      <Link to='/msg-list'>msg-list</Link>
+      <Link to='/chat-room'>chat</Link>
+      <Routes>
+        <Route path='/' element={<WelcomePage />}/> 
+        <Route path='/msg-list' element={<MessageListPage />}/> 
+        <Route path='/chat-room' element={<ChatRoomPage />}/>
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 export default App;
+

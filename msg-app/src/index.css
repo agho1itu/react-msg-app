@@ -1,13 +1,193 @@
-body {
+/*Fonts*/
+@import url('https://fonts.googleapis.com/css2?family=Alata&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+* {
+  border: none;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  width: 100%;
+  background: #629DD3;
+  font-family: 'Inter', sans-serif;
+  color: #222222;
 }
+
+p {
+  font-size: 15px;
+}
+
+h2 {
+  color: #F3F7FA;
+  font-family: 'Alata', sans-serif;
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.onlinestatus-online {
+  width: 20px;
+  height: 20px; 
+  background-color: #25BB3A;
+  border-radius: 50%;
+}
+
+
+/* Styling spesific to welcome page */
+.welcomepagebody {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcomePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100vh;
+  /* Makes the .app takes up the entire viewport height */
+}
+
+.containerWelcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: #FAF7F7;
+  width: 80%;
+  min-width: 310px;
+  /* We need to come back to how to make the height responsive */
+  height: 418px;
+  padding: 72px 10px;
+  border-radius: 37px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+}
+
+.loginFields {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+}
+
+.inputField {
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 40px;
+  background: #F2ECEC;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.primaryButton {
+  padding: 15px;
+  border-radius: 40px;
+  background: #4B957B;
+  color: #FAF7F7;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.headerTitle {
+  color: #F3F7FA;
+  font-family: 'Alata', sans-serif;
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.smallHeader {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* Styling spesific to Message List Page */
+.msglistbody {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.msglistheader {
+  margin-top: 4%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.msglistcontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 6%;
+  width: 100%;
+  /* We need to come back to how to make the height responsive */
+  height: 800px; 
+  background: #FAF7F7;
+  border-radius: 37px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+}
+
+.msglistcontainerheader {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 35px 20px;
+}
+
+.msglistuseronline{
+  display: flex;
+  align-items: center;
+  justify-content: space-between ;
+}
+
+.message {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 90%;
+  margin: 5px;
+}
+
+.profilepic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px; 
+  background-color: #88B4DD;
+  border-radius: 50%;
+}
+
+.messageNamePreview {
+  padding-left: 15px;
+}
+
+.search{
+  width: 100%;
+}
+
+.searchInputs {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.searchInput{
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 40px;
+  width: 80%;
+  background: #F2ECEC;
+  font-size: 14px;
+  font-weight: 400;
+}
+
