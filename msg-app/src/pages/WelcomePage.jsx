@@ -2,11 +2,9 @@ import Container from '../components/Container'
 
 const WelcomePage = () => {
   return (
-    <div className='welcomepagebody'> 
-      <div className='welcomePage'>
-        <h1 className='headerTitle'>Welcome!</h1>
+    <div className='welcomePage'>
+        <h1>Welcome!</h1>
         <Container/>
-      </div>
     </div>
     
   )
