@@ -18,6 +18,13 @@ p {
   font-size: 15px;
 }
 
+h1 {
+  color: #F3F7FA;
+  font-family: 'Alata', sans-serif;
+  font-size: 32px;
+  font-weight: 500;
+}
+
 h2 {
   color: #F3F7FA;
   font-family: 'Alata', sans-serif;
@@ -39,13 +46,7 @@ h3 {
 
 
 /* Styling spesific to welcome page */
-.welcomepagebody {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.welcomePage {
+.welcomePage, .signupPage {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -92,13 +93,6 @@ h3 {
   color: #FAF7F7;
   font-size: 16px;
   font-weight: 600;
-}
-
-.headerTitle {
-  color: #F3F7FA;
-  font-family: 'Alata', sans-serif;
-  font-size: 32px;
-  font-weight: 500;
 }
 
 .smallHeader {
@@ -189,5 +183,22 @@ h3 {
   background: #F2ECEC;
   font-size: 14px;
   font-weight: 400;
+}
+
+/*Styling for Signup Page*/
+
+.signupContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: #FAF7F7;
+  width: 80%;
+  min-width: 310px;
+  /* We need to come back to how to make the height responsive */
+  height: 418px;
+  padding: 72px 10px;
+  border-radius: 37px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 

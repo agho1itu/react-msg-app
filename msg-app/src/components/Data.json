@@ -1,6 +1,6 @@
 [{
   "id": 1, 
-  "text": "Past Nord", 
+  "text": "Post Nord", 
   "preview": "This is a preview",
   "time": "14:45", 
   "new": true
@@ -19,3 +19,4 @@
   "time": "16:19", 
   "new": true
 }]
+
