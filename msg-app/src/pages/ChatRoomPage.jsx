@@ -1,8 +1,14 @@
-import React from 'react'
+import Header from '../components/Header'
 
 const ChatRoomPage = () => {
   return (
-    <h1>This is a chat</h1>
+    <div className='pageBody'>
+      <Header type='withBackButton' pageTitle='Name of resipient' />
+      <div className='container'>
+        {/* Wirte code here */}
+      </div>
+    </div>
+
   )
 }
 

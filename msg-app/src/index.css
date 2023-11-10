@@ -37,46 +37,40 @@ h3 {
   margin: 0;
 }
 
-.onlinestatus-online {
-  width: 20px;
-  height: 20px; 
-  background-color: #25BB3A;
-  border-radius: 50%;
+h4 {
+  font-size: 16;
+  font-weight: 600;
 }
 
-
-/* Styling spesific to welcome page */
-.welcomePage, .signupPage {
+/* pageBody is the parent of all children */
+.pageBody {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
   height: 100vh;
-  /* Makes the .app takes up the entire viewport height */
 }
 
-.containerWelcome {
+/* Header styling */
+.header {
+  width: 80%;
+  height: 60px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background: #FAF7F7;
-  width: 80%;
-  min-width: 310px;
-  /* We need to come back to how to make the height responsive */
-  height: 418px;
-  padding: 72px 10px;
-  border-radius: 37px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
 }
 
-.loginFields {
-  display: flex;
-  flex-direction: column;
+/* SignIn/SignUp styling */
+.form {
   width: 85%;
 }
 
+.fields {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Field in form styling */
 .inputField {
   padding: 15px;
   margin-bottom: 20px;
@@ -86,6 +80,7 @@ h3 {
   font-weight: 400;
 }
 
+/* Buttons styling */
 .primaryButton {
   padding: 15px;
   border-radius: 40px;
@@ -95,41 +90,35 @@ h3 {
   font-weight: 600;
 }
 
-.smallHeader {
-  font-size: 16px;
-  font-weight: 700;
-}
-
-/* Styling spesific to Message List Page */
-.msglistbody {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.msglistheader {
-  margin-top: 4%;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-}
-
-.msglistcontainer {
+/* Containers styling */
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 6%;
   width: 100%;
-  /* We need to come back to how to make the height responsive */
   height: 800px; 
   background: #FAF7F7;
   border-radius: 37px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
 }
 
-.msglistcontainerheader {
+.floatingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: #FAF7F7;
+  width: 80%;
+  min-width: 310px;
+  height: 418px;
+  padding: 72px 10px;
+  border-radius: 37px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+/* xxx */
+.textAlignedLeft {
   width: 80%;
   display: flex;
   justify-content: space-between;
@@ -137,34 +126,36 @@ h3 {
   padding: 20px 35px 20px;
 }
 
-.msglistuseronline{
-  display: flex;
-  align-items: center;
-  justify-content: space-between ;
-}
-
+/* Chat in chat list styling */
 .message {
   display: flex;
   flex-direction: row;
   align-items: center;
   width: 90%;
-  margin: 5px;
+  margin: 7px;
 }
 
 .profilepic {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 50px; 
+  min-width: 50px;
+  min-height: 50px; 
   background-color: #88B4DD;
   border-radius: 50%;
 }
 
-.messageNamePreview {
-  padding-left: 15px;
+.previewInfo {
+  width: 100%;
+  padding-left: 12px;
 }
 
+.previewInfoFlex {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Search field Styling */
 .search{
   width: 100%;
 }
@@ -175,7 +166,7 @@ h3 {
   justify-content: center;
 }
 
-.searchInput{
+.search input {
   padding: 15px;
   margin-bottom: 20px;
   border-radius: 40px;
@@ -183,22 +174,5 @@ h3 {
   background: #F2ECEC;
   font-size: 14px;
   font-weight: 400;
-}
-
-/*Styling for Signup Page*/
-
-.signupContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  background: #FAF7F7;
-  width: 80%;
-  min-width: 310px;
-  /* We need to come back to how to make the height responsive */
-  height: 418px;
-  padding: 72px 10px;
-  border-radius: 37px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
