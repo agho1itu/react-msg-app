@@ -1,6 +1,9 @@
 import Input from '../components/Input' 
 import Button from '../components/Button'
 import {useState} from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import Parse from 'parse'
 
 const Form = ({type}) => {
   const [name, setName] = useState('')
@@ -8,16 +11,36 @@ const Form = ({type}) => {
   const [pass, setPass] = useState('')
   const [confirmPass, setConfirmPass] = useState('')
   
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  
+  const handleSubmit = async (e) => {
     e.preventDefault(); //Stops the page from reloading 
-
+  
     if (type === 'SignIn') {
-      console.log(number);
-    } else if (type === 'SignUp') {
-      console.log(name, number, pass, confirmPass);
-    }
+      try {
+        const user = await Parse.User.logIn(number, pass);
+        console.log('User logged in:', user); 
 
-  }
+        navigate('/chat_list');
+      } catch (error) {
+      console.error('Login Failed:', error);
+      }
+    } else if (type === 'SignUp') {
+      try {
+        const newUser = new Parse.User();
+        newUser.set('username', number); 
+        newUser.set('password', pass); 
+        newUser.set('fullName', name); 
+
+        const result = await newUser.signUp(); 
+        console.log('User signed up:', result);
+
+        navigate('/chat_list');
+      } catch (error) {
+        console.error('Sign up failed:', error);
+      }
+    }
+  };
 
   return (
     <div className='form'>
@@ -25,7 +48,7 @@ const Form = ({type}) => {
           <form onSubmit={handleSubmit} className='fields'>
             <Input value={number} onChange={(e) => setNumber(e.target.value)} type='number' placeholder='Phone number'  name='number'/>
             <Input value={pass} onChange={(e) => setPass(e.target.value)} type='password' placeholder='Password' name='password'/> 
-            <Button type='submit' text='Sign in' className='primaryButton'/>   
+            <Button type='submit' text='Sign in' className='primaryButton'/>
           </form>
         )}
         {type === 'SignUp' && (

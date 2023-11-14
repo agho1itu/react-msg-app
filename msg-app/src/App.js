@@ -6,6 +6,16 @@ import SignupPage from "./pages/SignupPage";
 import BlockedPage from "./pages/BlockedPage";
 import NewChatPage from "./pages/NewChatPage";
 
+// Import Parse minified version
+import Parse from 'parse';
+
+// Your Parse initialization configuration goes here
+const PARSE_APPLICATION_ID = '2wNHlZeA7c6uqah1S53WQoSA2l5Aiz7NudJZgQcM';
+const PARSE_HOST_URL = 'https://parseapi.back4app.com/';
+const PARSE_JAVASCRIPT_KEY = 'C8bR1RQVEVxPxrfZuREXlFLmiUYGiyFacW4IkzPo';
+Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
+Parse.serverURL = PARSE_HOST_URL;
+
 function App() {
   return (
     <BrowserRouter>

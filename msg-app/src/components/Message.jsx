@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // This is a functional component called "Message" that receives a "message" prop
 const Message = ({message}) => {
   const firstCharacter = message.sender[0];
-  //tenary operator  
+  //tenary operator, makes sure the app does not crash if there is no message.
   const messagePreview = message.message ? message.message.slice(0, 30) : '';
 
   return (

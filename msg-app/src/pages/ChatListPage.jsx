@@ -10,16 +10,11 @@ const ChatListPage = () => {
   return (
     <div className='pageBody'>
       <Header type='withIcons' pageTitle='Chat List'/>
-
       <div className='container'>
         <h3 className='textAlignedLeft'>Hi Karin</h3> 
-
         <Search placeholder='Search your messages' data={Data}/>
-
         <h4>Recent chats</h4>
-
         <Messages messages={messages} />
-
       </div>
     </div>
   )
