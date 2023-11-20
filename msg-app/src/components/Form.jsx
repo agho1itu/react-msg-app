@@ -18,7 +18,7 @@ const Form = ({type}) => {
   
     if (type === 'SignIn') {
       try {
-        const user = await Parse.User.logIn(number, pass);
+        const user = await Parse.User.logIn(number, pass); //Logs a user in and saves it to the disk, can be used with current()
         console.log('User logged in:', user); 
 
         navigate('/chat_list');
