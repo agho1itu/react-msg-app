@@ -7,6 +7,7 @@ const ChatListPage = () => {
   const [chatList, setChatList] = useState([]);
   // A standard method in parse for getting the currentuser 
   const currentUser = Parse.User.current();
+  const [sender, setSender] = useState('');
 
   // loading data from the DB - only loading 
   useEffect(() => {
@@ -26,7 +27,9 @@ const ChatListPage = () => {
 
     // new mainquery with current user both p1 and p2 - does the actual thing 
     let mainQuery = Parse.Query.or(query1, query2);
-    
+    // if this is removed we cannot access the fullName of the not currentUser
+    mainQuery.include('p1', 'p2')
+
     try {
       //make the first list to save main query  
       let listOfChats = await mainQuery.find();
@@ -35,12 +38,12 @@ const ChatListPage = () => {
     } catch (error) {
       //Error handeling 
       console.error('Error fetching chats:', error);
-    }   
+    }
   };
   //If there is no chats show loading 
-  if (chatList === undefined) {  
-    return ("Loading...");  
-  }   
+  if (chatList === undefined) {
+    return <p>"Loading..."</p>;
+  }
 
   return (
     <div className='pageBody'>
@@ -52,7 +55,18 @@ const ChatListPage = () => {
         <div>
           {/* use the now data filled chatlist to get fullname of p1 and p2, in chats current user is included in */}
           {chatList.map(chat => (
-            <div>{chat.get("p2").get("fullName") + '  -  ' + chat.get("p1").get("fullName")}</div>
+            <div key={chat.id}>
+              {/* Check if p1 is the current user and display p2's full name */}
+              {chat.get("p1").id === currentUser.id
+                ? chat.get("p2").get("fullName")
+                : (
+                  // Check if p2 is the current user and display p1's full name
+                  chat.get("p2").id === currentUser.id
+                    ? chat.get("p1").get("fullName")
+                    : null  // If neither p1 nor p2 is the current user, don't display anything
+                )
+              }
+            </div>
           ))}
         </div>
       </div>
