@@ -30,7 +30,7 @@ function App() {
         {/* Route refers to our pages.jsx */}
         <Route path='/' element={<WelcomePage />} />
         <Route path='/chat_list' element={<ChatListPage />} />
-        <Route path='/chat_room' element={<ChatRoomPage />} />
+        <Route path='/chat_room/:chatId' element={<ChatRoomPage />} />
         <Route path='/signup' element={<SignupPage />} />
         <Route path='/blocked' element={<BlockedPage />} />
         <Route path='/new_chat' element={<NewChatPage />} />

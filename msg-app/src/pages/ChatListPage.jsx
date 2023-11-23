@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react"
 import Header from '../components/Header'
 import Parse from 'parse';
+import { Link } from 'react-router-dom'
+
 
 const ChatListPage = () => {
-  // Define chat list as an array to put data in - chat list in empty until we use setChatList to add data
+  // Define chat list as an array to put data in - chat list in empty until we use setChatList to add data.
   const [chatList, setChatList] = useState([]);
-  // A standard method in parse for getting the currentuser 
+  // A standard method in parse for getting the current user 
   const currentUser = Parse.User.current();
-  const [sender, setSender] = useState('');
 
   // loading data from the DB - only loading 
   useEffect(() => {
@@ -25,7 +26,7 @@ const ChatListPage = () => {
     let query2 = new Parse.Query('Chat');
     query2.equalTo('p2', currentUser);
 
-    // new mainquery with current user both p1 and p2 - does the actual thing 
+    // new main query with current user both p1 and p2 - does the actual thing 
     let mainQuery = Parse.Query.or(query1, query2);
     // if this is removed we cannot access the fullName of the not currentUser
     mainQuery.include('p1', 'p2')
@@ -40,10 +41,25 @@ const ChatListPage = () => {
       console.error('Error fetching chats:', error);
     }
   };
+
   //If there is no chats show loading 
-  if (chatList === undefined) {
-    return <p>"Loading..."</p>;
+  if (chatList === 0) {
+    return <p>'Loading...'</p>;
   }
+
+  // only show the name of the sender - the user not current user 
+  const getOtherUserFullName = (chat) => {
+    const p1 = chat.get("p1");
+    const p2 = chat.get("p2");
+
+    if (p1.id === currentUser.id) {
+      return p2.get("fullName");
+    } else if (p2.id === currentUser.id) {
+      return p1.get("fullName");
+    }
+
+    return null;
+  };
 
   return (
     <div className='pageBody'>
@@ -56,16 +72,7 @@ const ChatListPage = () => {
           {/* use the now data filled chatlist to get fullname of p1 and p2, in chats current user is included in */}
           {chatList.map(chat => (
             <div key={chat.id}>
-              {/* Check if p1 is the current user and display p2's full name */}
-              {chat.get("p1").id === currentUser.id
-                ? chat.get("p2").get("fullName")
-                : (
-                  // Check if p2 is the current user and display p1's full name
-                  chat.get("p2").id === currentUser.id
-                    ? chat.get("p1").get("fullName")
-                    : null  // If neither p1 nor p2 is the current user, don't display anything
-                )
-              }
+              <Link to={`/chat/${chat.id}`}> {getOtherUserFullName(chat)} </Link>
             </div>
           ))}
         </div>
