@@ -5,36 +5,37 @@ import { Link } from 'react-router-dom'
 
 
 const ChatListPage = () => {
-  // Define chat list as an array to put data in - chat list in empty until we use setChatList to add data.
+  // define chat list as an array to put data in - chat list in empty until we use setChatList to add data.
   const [chatList, setChatList] = useState([]);
-  // A standard method in parse for getting the current user 
+  // a standard hook in parse for getting the current user 
   const currentUser = Parse.User.current();
 
-  // loading data from the DB - only loading 
+  // load data from the DB  
   useEffect(() => {
     loadChatData();
-  }, []);
+  });
 
-  //actual loading data from the DB - the function that does stuff
+  // actual loading data from the DB - the function that does stuff
   async function loadChatData() {
 
-    // In query 1 get data from Chat where current user is p1
-    let query1 = new Parse.Query('Chat');
-    query1.equalTo('p1', currentUser);
+    // In chatListQuery1 we get data from 'Chat' where current user is p1
+    let chatListQuery1 = new Parse.Query('Chat');
+    chatListQuery1.equalTo('p1', currentUser);
 
-    // Seperatly in query 2 get data from Chat where current user is p2
-    let query2 = new Parse.Query('Chat');
-    query2.equalTo('p2', currentUser);
+    // Seperatly in chatListchatListQuery2 we get data from 'Chat' where current user is p2
+    let chatListQuery2 = new Parse.Query('Chat');
+    chatListQuery2.equalTo('p2', currentUser);
 
-    // new main query with current user both p1 and p2 - does the actual thing 
-    let mainQuery = Parse.Query.or(query1, query2);
-    // if this is removed we cannot access the fullName of the not currentUser
+    // create a compound query that takes any object that matches any of the individual queries. 
+    let mainQuery = Parse.Query.or(chatListQuery1, chatListQuery2);
+
+    // include the 'p1' and 'p2' to fetch user related data
     mainQuery.include('p1', 'p2')
 
     try {
-      //make the first list to save main query  
+      // retrieves a list of ParseObjects that satisfy out query and stores it in listOfChats
       let listOfChats = await mainQuery.find();
-      // useState - use setChatList to add data 
+      // use setChatList to store our data in chatList
       setChatList(listOfChats);
     } catch (error) {
       //Error handeling 
@@ -42,12 +43,12 @@ const ChatListPage = () => {
     }
   };
 
-  //If there is no chats show loading 
+  // if there is no chats in chatList show 'Loading...' 
   if (chatList === 0) {
     return <p>'Loading...'</p>;
   }
 
-  // only show the name of the sender - the user not current user 
+  // get the name of the user not currently logged in 
   const getOtherUserFullName = (chat) => {
     const p1 = chat.get("p1");
     const p2 = chat.get("p2");
@@ -65,14 +66,12 @@ const ChatListPage = () => {
     <div className='pageBody'>
       <Header type='withIcons' pageTitle='Chat List' />
       <div className='container'>
-        {/* Say Hi to the current user */}
         <h3 className='textAlignedLeft'>Hi {currentUser.get('fullName')} </h3>
         <h4>Recent chats</h4>
         <div>
-          {/* use the now data filled chatlist to get fullname of p1 and p2, in chats current user is included in */}
           {chatList.map(chat => (
             <div key={chat.id}>
-              <Link to={`/chat/${chat.id}`}> {getOtherUserFullName(chat)} </Link>
+              <Link to={`/chat_room/${chat.id}`}> {getOtherUserFullName(chat)} </Link>
             </div>
           ))}
         </div>

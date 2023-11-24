@@ -1,3 +1,5 @@
+// search broke when parsing data, will be implemented again at a later stage
+// uses old Data.json file
 import { useState } from 'react'
 import search from './assets/search.svg';
 import close from './assets/close.svg'

@@ -1,13 +1,15 @@
+// should be deleted
+
 import PropTypes from 'prop-types';
 
-// This is a functional component called "Message" that receives a "message" prop
+// this is a functional component called "Message" that receives a "message" prop
 const Message = ({message}) => {
   const firstCharacter = message.sender[0];
-  //tenary operator, makes sure the app does not crash if there is no message.
+  // tenary operator, makes sure the app does not crash if there is no message.
   const messagePreview = message.message ? message.message.slice(0, 30) : '';
 
   return (
-  // A parent container for message 
+  // a parent container for message 
     <div className='message'>
       <h4 className='profilepic'>{firstCharacter}</h4>
       <div className="previewInfo">
@@ -20,7 +22,7 @@ const Message = ({message}) => {
     </div>
   )
 }
-// Exporting the "Message" component to make it available for use in other parts of the application.
+// exporting the "Message" component to make it available for use in other parts of the application.
 export default Message
 
 Message.propTypes = {
