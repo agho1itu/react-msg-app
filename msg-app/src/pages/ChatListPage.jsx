@@ -66,7 +66,7 @@ const ChatListPage = () => {
     <div className='pageBody'>
       <Header type='withIcons' pageTitle='Chat List' />
       <div className='container'>
-        <h3 className='textAlignedLeft'>Hi {currentUser.get('fullName')} </h3>
+        <h3 className='textAlignedLeft'>Hi {currentUser.get('fullName')}</h3>
         <h4>Recent chats</h4>
         <div>
           {chatList.map(chat => (
