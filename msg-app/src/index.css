@@ -144,15 +144,25 @@ button:active {
 }
 
 /* Chat in chat list styling */
+.chat-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 .message {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   width: 90%;
   margin: 7px;
+  color: #222222;
 }
-
-
+.message-flex {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
 .profilepic {
   display: flex;
   align-items: center;
@@ -162,10 +172,11 @@ button:active {
   background-color: #88B4DD;
   border-radius: 50%;
 }
-
 .previewInfo {
   width: 100%;
-  padding-left: 12px;
+}
+.time {
+display: flex;
 }
 
 .previewInfoFlex {
