@@ -59,8 +59,8 @@ const ChatListPage = () => {
       return p1.get("fullName");
     }
 
-    return null; 
-    };
+    return null;
+  };
 
 
   return (
@@ -72,13 +72,14 @@ const ChatListPage = () => {
         <div className='chat-list'>
           {chatList.map(chat => (
             <div key={chat.id} className="message">
-              <div className="profilepic">{getOtherUserFullName(chat)[0]}</div className='message'>
-              <div className='profilepic'> {getOtherUserFullName(chat)[0]}</div>
-              <div className='message-flex'>
+              <div className="profilepic">{getOtherUserFullName(chat)[0]}</div>
               <Link to={`/chat_room/${chat.id}`}> {getOtherUserFullName(chat)} </Link>
-              <div className='previewInfo'> preview her </div>
+              <div
+                className='previewInfo'> preview her
               </div>
-              <div className='time'> 12:45</div>
+              <div
+                className='time'> 12:45
+              </div>
             </div>
           ))}
         </div>
