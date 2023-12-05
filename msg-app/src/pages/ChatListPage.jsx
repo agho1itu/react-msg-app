@@ -38,7 +38,7 @@ const ChatListPage = () => {
       // use setChatList to store our data in chatList
       setChatList(listOfChats);
     } catch (error) {
-      //Error handeling 
+      // error handeling 
       console.error('Error fetching chats:', error);
     }
   };
@@ -66,11 +66,12 @@ const ChatListPage = () => {
     <div className='pageBody'>
       <Header type='withIcons' pageTitle='Chat List' />
       <div className='container'>
-        <h3 className='textAlignedLeft'>Hi {currentUser.get('fullName')}</h3>
+        <h3 className='textAlignedLeft'>Hi {currentUser.get('fullName')} </h3>
         <h4>Recent chats</h4>
         <div>
           {chatList.map(chat => (
-            <div key={chat.id}>
+            <div key={chat.id} className="message">
+              <div className="profilepic">{getOtherUserFullName(chat)[0]}</div>
               <Link to={`/chat_room/${chat.id}`}> {getOtherUserFullName(chat)} </Link>
             </div>
           ))}
