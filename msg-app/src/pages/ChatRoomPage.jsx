@@ -114,7 +114,8 @@ const ChatRoomPage = () => {
             <p className='sender-id'>{msg.get('sender').get('fullName')}</p>
           </div>
         ))}
-        <div className='message-box'>
+      </div>
+      <div className='message-box'>
           <Input
             type='text'
             value={newMessageContent}
@@ -125,7 +126,6 @@ const ChatRoomPage = () => {
             Send
           </button>
         </div>
-      </div>
     </div>
   );
 };
