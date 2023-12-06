@@ -21,13 +21,14 @@ const ChatRoomPage = () => {
 
     // Open the WebSocket connection
     liveQuery.open();
+    console.log('WebSocket connection opened');
 
     // Subscribe to the 'Message' class live query for the specific chatId
     const query = new Parse.Query('Message');
     query.equalTo('chat', Parse.Object.extend('Chat').createWithoutData(chatId));
     const subscription = liveQuery.subscribe(query);
 
-    // Event listeners for live query events
+    // Event listeners for live query d
     subscription.on('create', (object) => {
       setMessages((prevMessages) => [...prevMessages, object]);
     });
@@ -56,36 +57,32 @@ const ChatRoomPage = () => {
     try {
       const chatRoom = new Parse.Object('Chat');
       chatRoom.id = chatId;
-  
-      const msgQuery1 = new Parse.Query('Message');
-      msgQuery1.equalTo('receiver', currentUser);
-      msgQuery1.equalTo('chat', chatRoom);
-  
-      const msgQuery2 = new Parse.Query('Message');
-      msgQuery2.equalTo('sender', currentUser);
-      msgQuery2.equalTo('chat', chatRoom);
-  
-      const mainMsgQuery = Parse.Query.or(msgQuery1, msgQuery2);
-      mainMsgQuery.include('sender', 'receiver');
-      mainMsgQuery.descending('createdAt'); // Sort by createdAt in descending order
-  
-      const messages = await mainMsgQuery.find();
-  
-      // Set otherUser based on the most recent message
-      const mostRecentMessage = messages[0];
-      const otherUserInChat = mostRecentMessage.get('sender') !== currentUser
-        ? mostRecentMessage.get('sender')
-        : mostRecentMessage.get('receiver');
-  
+
+      // Fetch the chat to get the participants
+      const chatParticipants = await chatRoom.fetch({ include: ['p1', 'p2'] });
+      const participant1 = chatParticipants.get('p1');
+      const participant2 = chatParticipants.get('p2');
+
+      // Determine the other user based on the participants
+      const otherUserInChat = participant1.id === currentUser.id ? participant2 : participant1;
+
       console.log('Other User:', otherUserInChat);
-  
+
+      // Fetch messages
+      const msgQuery = new Parse.Query('Message');
+      msgQuery.equalTo('chat', chatRoom);
+      msgQuery.include('sender', 'receiver');
+      msgQuery.ascending('createdAt');
+
+      const messages = await msgQuery.find();
+
       setMessages(messages);
       setOtherUser(otherUserInChat);
     } catch (error) {
-      console.error('Error fetching messages:', error);
+      console.error('Error fetching chat data:', error);
     }
   };
-  
+
   const handleSendMessage = async () => {
     try {
       const Message = new Parse.Object('Message');
@@ -109,8 +106,12 @@ const ChatRoomPage = () => {
       <Header type='withBackButton' pageTitle={otherUser ? otherUser.get('fullName') : 'Chat Room'} />
       <div className='container'>
         {messages.map((msg) => (
-          <div key={msg.id}>
+          <div 
+          key={msg.id}
+          className={`message ${msg.get('sender').id === currentUser.id ? 'currentUser' : 'otherUser'}`}
+          >
             <p>{msg.get('content')}</p>
+            <p>{msg.get('sender').get('fullName')}</p>
           </div>
         ))}
         <div>
@@ -130,4 +131,3 @@ const ChatRoomPage = () => {
 };
 
 export default ChatRoomPage;
-

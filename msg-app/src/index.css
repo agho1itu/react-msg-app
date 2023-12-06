@@ -205,3 +205,21 @@ display: flex;
   font-weight: 400;
 }
 
+.message {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  max-width: 70%;
+}
+
+.currentUser {
+  align-self: flex-end;
+  background-color: #4caf50;
+  color: #ffffff;
+}
+
+.otherUser {
+  align-self: flex-start;
+  background-color: #e0e0e0;
+  color: #000000;
+}

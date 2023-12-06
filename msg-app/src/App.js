@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import WelcomePage from './pages/WelcomePage';
 import ChatListPage from './pages/ChatListPage';
 import ChatRoomPage from './pages/ChatRoomPage';
+import CreateChatPage from './pages/CreateChatPage';
 import SignupPage from './pages/SignupPage';
 import BlockedPage from './pages/BlockedPage';
 import NewChatPage from './pages/NewChatPage';
@@ -35,6 +36,7 @@ function App() {
         <Route path='/' element={<WelcomePage />} />
         <Route path='/chat_list' element={<ChatListPage />} />
         <Route path='/chat_room/:chatId' element={<ChatRoomPage />} />
+        <Route path='/new_chat_room/:userId' element={<CreateChatPage />} />
         <Route path='/signup' element={<SignupPage />} />
         <Route path='/blocked' element={<BlockedPage />} />
         <Route path='/new_chat' element={<NewChatPage />} />
