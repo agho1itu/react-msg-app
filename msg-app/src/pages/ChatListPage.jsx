@@ -17,19 +17,19 @@ const ChatListPage = () => {
 
   //function to load chat data from the Parse database
   async function loadChatData() {
-  //create two queries to retrieve chat where the current user is either p1 or p2
+    //create two queries to retrieve chat where the current user is either p1 or p2
     let chatListQuery1 = new Parse.Query('Chat');
     chatListQuery1.equalTo('p1', currentUser);
 
     let chatListQuery2 = new Parse.Query('Chat');
     chatListQuery2.equalTo('p2', currentUser);
 
-  //combine the queries to fetch chats where the current user is involved
+    //combine the queries to fetch chats where the current user is involved
     let mainQuery = Parse.Query.or(chatListQuery1, chatListQuery2);
     mainQuery.include('p1', 'p2');
 
     try {
-    //retrive chats based on the queries and set the chat list state
+      //retrive chats based on the queries and set the chat list state
       let listOfChats = await mainQuery.find();
       setChatList(listOfChats);
     } catch (error) {
@@ -51,6 +51,18 @@ const ChatListPage = () => {
 
     return null;
   };
+
+  //function to handle changes in the search input
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredChats = chatList.filter(chat =>
+    getOtherUserFullName(chat)
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase()
+      ));
+
 
   return (
     <div className='pageBody'>
@@ -74,10 +86,9 @@ const ChatListPage = () => {
         </div>
         <h4>Recent chats</h4>
         <div>
-          {chatList.map(chat => (
-            <div key={chat.id}>
-              <Link to={`/chat_room/${chat.id}`}> {getOtherUserFullName(chat)} </Link>
-            </div>
+          {filteredChats.map(chat => (<div key={chat.id}>
+            <Link to={`/chat_room/${chat.id}`}>{getOtherUserFullName(chat)}</ Link>
+          </div>
           ))}
         </div>
       </div>
