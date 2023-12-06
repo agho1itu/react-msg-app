@@ -33,6 +33,7 @@ const ChatListPage = () => {
       let listOfChats = await mainQuery.find();
       setChatList(listOfChats);
     } catch (error) {
+      //Error handeling 
       console.error('Error fetching chats:', error);
     }
   }
@@ -50,16 +51,6 @@ const ChatListPage = () => {
 
     return null;
   };
-
-  //function to handle changes in the search input
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  //filter the chat list based on the search term
-  const filteredChats = chatList.filter(chat =>
-    getOtherUserFullName(chat).toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div className='pageBody'>
@@ -83,9 +74,9 @@ const ChatListPage = () => {
         </div>
         <h4>Recent chats</h4>
         <div>
-          {filteredChats.map(chat => (
+          {chatList.map(chat => (
             <div key={chat.id}>
-              <Link to={`/chat_room/${chat.id}`}>{getOtherUserFullName(chat)}</Link>
+              <Link to={`/chat_room/${chat.id}`}> {getOtherUserFullName(chat)} </Link>
             </div>
           ))}
         </div>

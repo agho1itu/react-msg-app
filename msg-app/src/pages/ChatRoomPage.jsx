@@ -1,99 +1,101 @@
-import Header from '../components/Header'
-import Input from '../components/Input'
+import React, { useEffect, useState } from 'react';
+import Header from '../components/Header';
+import Input from '../components/Input';
 import Parse from 'parse';
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 const ChatRoomPage = () => {
-  const { chatId } = useParams(); // get the 'id' from the route
-
+  const { chatId } = useParams();
   const [messages, setMessages] = useState([]);
-  const [otherUser, setOtherUser] = useState(null);
+  const [otherUser, setOtherUser] = useState('');
   const [newMessageContent, setNewMessageContent] = useState('');
-
   const currentUser = Parse.User.current();
+  let liveQuery;
 
   useEffect(() => {
-    loadChatData();
-  }, []); // there seems to be a lot of discussion if we should include the empty dependency array
+    // I find no other way to use live query to put it in the local file
+    liveQuery = new Parse.LiveQueryClient({
+      applicationId: '2wNHlZeA7c6uqah1S53WQoSA2l5Aiz7NudJZgQcM',
+      serverURL: 'ws://safechat.b4a.io',
+    });
 
-  async function loadChatData() {
+    // Open the WebSocket connection
+    liveQuery.open();
+    console.log('WebSocket connection opened');
+
+    // Subscribe to the 'Message' class live query for the specific chatId
+    const query = new Parse.Query('Message');
+    query.equalTo('chat', Parse.Object.extend('Chat').createWithoutData(chatId));
+    const subscription = liveQuery.subscribe(query);
+
+    // Event listeners for live query d
+    subscription.on('create', (object) => {
+      setMessages((prevMessages) => [...prevMessages, object]);
+    });
+
+    subscription.on('update', (object) => {
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) => (msg.id === object.id ? object : msg))
+      );
+    });
+
+    subscription.on('delete', (object) => {
+      setMessages((prevMessages) => prevMessages.filter((msg) => msg.id !== object.id));
+    });
+
+    // Load initial chat data
+    loadChatData();
+
+    return () => {
+      // Close the subscription and WebSocket connection when the component unmounts
+      subscription.unsubscribe();
+      liveQuery.close();
+    };
+  }, [chatId]);
+
+  const loadChatData = async () => {
     try {
       const chatRoom = new Parse.Object('Chat');
-      // define the chatroom to be the same as chats objectId
       chatRoom.id = chatId;
 
-      // two queries for the 'Message' class to find current user as sender or reciever of a message
-      let msgQuery1 = new Parse.Query('Message');
-      msgQuery1.equalTo('receiver', currentUser);
-      msgQuery1.equalTo('chat', chatRoom);
+      // Fetch the chat to get the participants
+      const chatParticipants = await chatRoom.fetch({ include: ['p1', 'p2'] });
+      const participant1 = chatParticipants.get('p1');
+      const participant2 = chatParticipants.get('p2');
 
-      let msgQuery2 = new Parse.Query('Message');
-      msgQuery2.equalTo('sender', currentUser);
-      msgQuery2.equalTo('chat', chatRoom);
+      // Determine the other user based on the participants
+      const otherUserInChat = participant1.id === currentUser.id ? participant2 : participant1;
 
-      // create a compound query that takes any object that matches any of the individual queries. 
-      let mainMsgQuery = Parse.Query.or(msgQuery1, msgQuery2);
+      console.log('Other User:', otherUserInChat);
 
-      // include the 'sender' and 'receiver' to fetch user related data
-      mainMsgQuery.include('sender', 'receiver');
+      // Fetch messages
+      const msgQuery = new Parse.Query('Message');
+      msgQuery.equalTo('chat', chatRoom);
+      msgQuery.include('sender', 'receiver');
+      msgQuery.ascending('createdAt');
 
-      // retrieves a list of ParseObjects that satisfy this query and stores it in messages
-      const messages = await mainMsgQuery.find();
+      const messages = await msgQuery.find();
+
       setMessages(messages);
-
-      // load other user in chat 
-      const otherUserInChat = getOtherUser(messages);
       setOtherUser(otherUserInChat);
-
     } catch (error) {
-      console.error('Error fetching messages:', error);
+      console.error('Error fetching chat data:', error);
     }
-  }
-
-  // actual determine who is the other user in chat
-  // there is a bug in this function, that defaults to chatroom even if the other user should be determined
-  const getOtherUser = (messages) => {
-    for (const msg of messages) {
-      const sender = msg.get('sender');
-      const receiver = msg.get('receiver');
-
-      // check if the sender is not the current user
-      if (sender && sender.id !== currentUser.id) {
-        return sender;
-      }
-
-      // check if the receiver is not the current user
-      if (receiver && receiver.id !== currentUser.id) {
-        return receiver;
-      }
-    }
-
-    // default return value in case our loop don't find a match.
-    return null;
   };
 
   const handleSendMessage = async () => {
-    console.log('handleSendMessage function called');
     try {
       const Message = new Parse.Object('Message');
-
-      // use set function to determine sender, receiver, content, and chat for the new message
-      // in the case the logged in user sends a messsage into the DB, they will always be the sender
       Message.set('sender', currentUser);
       Message.set('receiver', otherUser);
       Message.set('content', newMessageContent);
-      Message.set('chat', Parse.Object.extend('Chat').createWithoutData(chatId)); //extend?
+      Message.set('chat', Parse.Object.extend('Chat').createWithoutData(chatId));
 
-      // use save function to add the new message to the DB
+      // save the new message to Parse
       await Message.save();
-
-      // reload the chat data after sending the message
-      loadChatData();
 
       // clear the input field
       setNewMessageContent('');
-
     } catch (error) {
       console.error('Error sending message:', error);
     }
@@ -103,25 +105,29 @@ const ChatRoomPage = () => {
     <div className='pageBody'>
       <Header type='withBackButton' pageTitle={otherUser ? otherUser.get('fullName') : 'Chat Room'} />
       <div className='container'>
-        {messages.map(msg => (
-          <div key={msg.id}>
+        {messages.map((msg) => (
+          <div 
+          key={msg.id}
+          className={`message ${msg.get('sender').id === currentUser.id ? 'currentUser' : 'otherUser'}`}
+          >
             <p>{msg.get('content')}</p>
+            <p className='sender-id'>{msg.get('sender').get('fullName')}</p>
           </div>
         ))}
-        <div>
+        <div className='message-box'>
           <Input
             type='text'
             value={newMessageContent}
             onChange={(e) => setNewMessageContent(e.target.value)}
             placeholder='type your message...'
           />
-          {/* Our button component could not handle the onClick */}
-          <button className='primaryButton' onClick={handleSendMessage}> Send
+          <button className='primaryButton' onClick={handleSendMessage}>
+            Send
           </button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ChatRoomPage
+export default ChatRoomPage;
