@@ -149,7 +149,7 @@ button:active {
   flex-direction: column;
   width: 100%;
 }
-.message {
+.message-list {
   display: flex;
   flex-direction: row;
   align-items: center;
