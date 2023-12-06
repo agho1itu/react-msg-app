@@ -1,54 +1,43 @@
-import { useEffect, useState } from "react"
-import Header from '../components/Header'
+import { useEffect, useState } from "react";
+import Header from '../components/Header';
 import Parse from 'parse';
-import { Link } from 'react-router-dom'
-
+import { Link } from 'react-router-dom';
+import searchIcon from '../components/assets/search.svg'; // import the SVG file
 
 const ChatListPage = () => {
-  // define chat list as an array to put data in - chat list in empty until we use setChatList to add data.
+  //state variables to manage chat list, search term, and current user
   const [chatList, setChatList] = useState([]);
-  // a standard hook in parse for getting the current user 
+  const [searchTerm, setSearchTerm] = useState('');
   const currentUser = Parse.User.current();
 
-  // load data from the DB  
+  //loead chat data when the component mounts or when LoadChatData changes
   useEffect(() => {
     loadChatData();
-  });
+  }, [loadChatData]); // include loadChatData in the dependency array  
 
-  // actual loading data from the DB - the function that does stuff
+  //function to load chat data from the Parse database
   async function loadChatData() {
-
-    // In chatListQuery1 we get data from 'Chat' where current user is p1
+  //create two queries to retrieve chat where the current user is either p1 or p2
     let chatListQuery1 = new Parse.Query('Chat');
     chatListQuery1.equalTo('p1', currentUser);
 
-    // Seperatly in chatListchatListQuery2 we get data from 'Chat' where current user is p2
     let chatListQuery2 = new Parse.Query('Chat');
     chatListQuery2.equalTo('p2', currentUser);
 
-    // create a compound query that takes any object that matches any of the individual queries. 
+  //combine the queries to fetch chats where the current user is involved
     let mainQuery = Parse.Query.or(chatListQuery1, chatListQuery2);
-
-    // include the 'p1' and 'p2' to fetch user related data
-    mainQuery.include('p1', 'p2')
+    mainQuery.include('p1', 'p2');
 
     try {
-      // retrieves a list of ParseObjects that satisfy out query and stores it in listOfChats
+    //retrive chats based on the queries and set the chat list state
       let listOfChats = await mainQuery.find();
-      // use setChatList to store our data in chatList
       setChatList(listOfChats);
     } catch (error) {
-      //Error handeling 
       console.error('Error fetching chats:', error);
     }
-  };
-
-  // if there is no chats in chatList show 'Loading...' 
-  if (chatList === 0) {
-    return <p>'Loading...'</p>;
   }
 
-  // get the name of the user not currently logged in 
+  //function to retrive the full name of the other user in the chat
   const getOtherUserFullName = (chat) => {
     const p1 = chat.get("p1");
     const p2 = chat.get("p2");
@@ -62,16 +51,41 @@ const ChatListPage = () => {
     return null;
   };
 
+  //function to handle changes in the search input
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  //filter the chat list based on the search term
+  const filteredChats = chatList.filter(chat =>
+    getOtherUserFullName(chat).toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className='pageBody'>
       <Header type='withIcons' pageTitle='Chat List' />
       <div className='container'>
         <h3 className='textAlignedLeft'>Hi {currentUser.get('fullName')} </h3>
+        <div className="searchContainer">
+          <input
+            type="text"
+            placeholder=" "
+            value={searchTerm}
+            onChange={handleSearch}
+            className="searchInput"
+            style={{
+              backgroundImage: `url(${searchIcon})`, // Set background image
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: '10px 50%', // Adjust position of the icon
+              paddingLeft: '40px', // Create space for the icon
+            }}
+          />
+        </div>
         <h4>Recent chats</h4>
         <div>
-          {chatList.map(chat => (
+          {filteredChats.map(chat => (
             <div key={chat.id}>
-              <Link to={`/chat_room/${chat.id}`}> {getOtherUserFullName(chat)} </Link>
+              <Link to={`/chat_room/${chat.id}`}>{getOtherUserFullName(chat)}</Link>
             </div>
           ))}
         </div>
