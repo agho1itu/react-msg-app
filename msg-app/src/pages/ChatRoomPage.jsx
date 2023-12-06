@@ -111,10 +111,10 @@ const ChatRoomPage = () => {
           className={`message ${msg.get('sender').id === currentUser.id ? 'currentUser' : 'otherUser'}`}
           >
             <p>{msg.get('content')}</p>
-            <p>{msg.get('sender').get('fullName')}</p>
+            <p className='sender-id'>{msg.get('sender').get('fullName')}</p>
           </div>
         ))}
-        <div>
+        <div className='message-box'>
           <Input
             type='text'
             value={newMessageContent}
