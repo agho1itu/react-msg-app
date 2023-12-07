@@ -65,6 +65,13 @@ h4 {
   width: 85%;
 }
 
+.error-message {
+  color: red;
+  margin-bottom: 9px;
+  margin-left: 8px;
+  font-size: 12px;
+}
+
 .fields {
   display: flex;
   flex-direction: column;
@@ -137,8 +144,6 @@ button:active {
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-
-
 /* xxx */
 .textAlignedLeft {
   width: 80%;
@@ -191,16 +196,23 @@ display: flex;
 
 /* ChatListPage.css */
 
+.searchContainer {
+  display: flex;
+  width: 80%;
+}
+
 .searchInput {
   width: 100%;
   padding: 10px;
   border-radius: 20px;
   font-size: 16px;
   margin-bottom: 15px;
+  margin-left: 0px;
   background-color: #D9D9D9;
   color: #3D3D3D;
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
+  
 }
 
 .message {

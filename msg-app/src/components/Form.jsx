@@ -10,20 +10,23 @@ const Form = ({type}) => {
   const [number, setNumber] = useState()
   const [pass, setPass] = useState('')
   const [confirmPass, setConfirmPass] = useState('')
+  const [error, setError] = useState(null);
   
   const navigate = useNavigate();
   
   const handleSubmit = async (e) => {
     e.preventDefault(); //Stops the page from reloading 
+    setError(null);
   
     if (type === 'SignIn') {
       try {
         const user = await Parse.User.logIn(number, pass); //Logs a user in and saves it to the disk, can be used with current()
         console.log('User logged in:', user); 
-
         navigate('/chat_list');
       } catch (error) {
       console.error('Login Failed:', error);
+      setError('Password is incorrect');
+      console.log('Error state:', error); // Add this line to check the error state
       }
     } else if (type === 'SignUp') {
       try {
@@ -44,10 +47,12 @@ const Form = ({type}) => {
 
   return (
     <div className='form'>
+  
       {type === 'SignIn' && (
           <form onSubmit={handleSubmit} className='fields'>
             <Input value={number} onChange={(e) => setNumber(e.target.value)} type='number' placeholder='Phone number'  name='number'/>
             <Input value={pass} onChange={(e) => setPass(e.target.value)} type='password' placeholder='Password' name='password'/> 
+            {error && <p className="error-message">{error}</p>}
             <Button type='submit' text='Sign in' className='primaryButton'/>
           </form>
         )}
