@@ -86,7 +86,7 @@ const ChatListPage = () => {
         </div>
         <h4>Recent chats</h4>
         <div className='chat-list'>
-          {chatList.map(chat => (
+          {filteredChats.map(chat => (
             <div key={chat.id} className="message-list">
               <div className="profilepic">{getOtherUserFullName(chat)[0]}</div>
               <Link to={`/chat_room/${chat.id}`}> {getOtherUserFullName(chat)} </Link>
