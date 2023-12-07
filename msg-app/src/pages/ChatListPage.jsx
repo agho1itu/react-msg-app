@@ -90,12 +90,12 @@ const ChatListPage = () => {
             <div key={chat.id} className="message-list">
               <div className="profilepic">{getOtherUserFullName(chat)[0]}</div>
               <Link to={`/chat_room/${chat.id}`}> {getOtherUserFullName(chat)} </Link>
-              <div
+              {/*<div
                 className='previewInfo'> preview...
               </div>
               <div
                 className='time'> time
-              </div>
+              </div>*/}
             </div>
           ))}
         </div>
