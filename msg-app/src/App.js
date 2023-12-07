@@ -21,7 +21,7 @@ Parse.liveQueryServerURL = 'ws://safechat.b4a.io';
 function App() {
   return (
     <BrowserRouter>
-      {/* Navigation Links */}
+      {/* Navigation Links 
       <nav>
         <Link to='/'>SignIn</Link>
         <Link to='/signup'>SignUp</Link>
@@ -29,7 +29,7 @@ function App() {
         <Link to='/chat_room'>Chat</Link>
         <Link to='/new_chat'>NewChat</Link>
         <Link to='/blocked'>Blocked</Link>
-      </nav>
+      </nav>*/}
 
       {/* Routes Configuration */}
       <Routes>
