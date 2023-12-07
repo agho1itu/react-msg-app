@@ -15,8 +15,8 @@ const ChatRoomPage = () => {
   useEffect(() => {
     // I find no other way to use live query to put it in the local file
     liveQuery = new Parse.LiveQueryClient({
-      applicationId: '2wNHlZeA7c6uqah1S53WQoSA2l5Aiz7NudJZgQcM',
-      serverURL: 'ws://safechat.b4a.io',
+      applicationId: 'ZGpRVylGtuaaaDeThtIbmbTysyYrHmynWPtsrHYd',
+      serverURL: 'ws://safechat20.b4a.io',
     });
 
     // Open the WebSocket connection
