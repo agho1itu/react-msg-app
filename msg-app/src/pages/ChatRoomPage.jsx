@@ -59,12 +59,12 @@ const ChatRoomPage = () => {
       chatRoom.id = chatId;
 
       // Fetch the chat to get the participants
-      const chatParticipants = await chatRoom.fetch({ include: ['p1', 'p2'] });
-      const participant1 = chatParticipants.get('p1');
-      const participant2 = chatParticipants.get('p2');
+      const chatUsers = await chatRoom.fetch({ include: ['p1', 'p2'] });
+      const user1 = chatUsers.get('p1');
+      const user2 = chatUsers.get('p2');
 
       // Determine the other user based on the participants
-      const otherUserInChat = participant1.id === currentUser.id ? participant2 : participant1;
+      const otherUserInChat = user1.id === currentUser.id ? user2 : user1;
 
       console.log('Other User:', otherUserInChat);
 
@@ -105,17 +105,18 @@ const ChatRoomPage = () => {
     <div className='pageBody'>
       <Header type='withBackButton' pageTitle={otherUser ? otherUser.get('fullName') : 'Chat Room'} />
       <div className='container'>
-        {messages.map((msg) => (
-          <div 
-          key={msg.id}
-          className={`message ${msg.get('sender').id === currentUser.id ? 'currentUser' : 'otherUser'}`}
-          >
-            <p>{msg.get('content')}</p>
-            <p className='sender-id'>{msg.get('sender').get('fullName')}</p>
-          </div>
-        ))}
-      </div>
-      <div className='message-box'>
+        <div className='container-scroll'>
+          {messages.map((msg) => (
+            <div
+              key={msg.id}
+              className={`message ${msg.get('sender').id === currentUser.id ? 'currentUser' : 'otherUser'}`}
+            >
+              <p>{msg.get('content')}</p>
+              <p className='sender-id'>{msg.get('sender').get('fullName')}</p>
+            </div>
+          ))}
+        </div>
+        <div className='send-and-input'>
           <Input
             type='text'
             value={newMessageContent}
@@ -126,6 +127,7 @@ const ChatRoomPage = () => {
             Send
           </button>
         </div>
+      </div>
     </div>
   );
 };
