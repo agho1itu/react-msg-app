@@ -104,7 +104,7 @@ const ChatRoomPage = () => {
   return (
     <div className='pageBody'>
       <Header type='withBackButton' pageTitle={otherUser ? otherUser.get('fullName') : 'Chat Room'} />
-      <div className='container'>
+      <div className='container-message'>
         {messages.map((msg) => (
           <div 
           key={msg.id}
@@ -127,6 +127,7 @@ const ChatRoomPage = () => {
           </button>
         </div>
     </div>
+    
   );
 };
 

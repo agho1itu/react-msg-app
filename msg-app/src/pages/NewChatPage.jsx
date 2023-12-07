@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import Parse from "parse";
 import Header from "../components/Header";
+import searchIcon from '../components/assets/search.svg'; // import the SVG file
+
 
 
 const NewChatPage = () => {
   const [userList, setUserList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
 
   useEffect(() => {
     loadChatData();
@@ -40,17 +44,43 @@ const NewChatPage = () => {
     }
   };
 
+  //function to handle changes in the search input
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredChats = userList.filter(chat =>
+    chat.user.get('fullName')
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className='pageBody'>
       <Header type='withBackButton' pageTitle='New Chat' />
       <div className='container'>
-        {userList.map(({ user, existingChat }) => {
+      <div className="searchContainer">
+        <input
+          type="text"
+          placeholder="Search through contacts"
+          value={searchTerm}
+          onChange={handleSearch}
+          className="searchInput"
+          style={{
+            backgroundImage: `url(${searchIcon})`, // Set background image
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: '10px 50%', // Adjust position of the icon
+            paddingLeft: '40px', // Create space for the icon
+          }}
+        />
+      </div>
+        {filteredChats.map(({ user, existingChat }) => {
           const userFullName = user.get('fullName');
           const chatLink = existingChat ? `/chat_room/${existingChat.id}` : `/new_chat_room/${user.id}`;
-          const linkText = existingChat ? `${userFullName} (Chat exists)` : userFullName;
-
+          const linkText = existingChat ? `${userFullName}` : userFullName;
           return (
-            <div key={user.id}>
+            <div className='message-list' key={user.id}>
+              <div className="profilepic">{user.get('fullName')[0]}</div>
               <Link to={chatLink}>{linkText}</Link>
             </div>
           );

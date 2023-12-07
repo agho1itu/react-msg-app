@@ -68,11 +68,11 @@ const ChatListPage = () => {
     <div className='pageBody'>
       <Header type='withIcons' pageTitle='Chat List' />
       <div className='container'>
-        <h3 className='textAlignedLeft'>Hi {currentUser.get('fullName')} </h3>
+        <h3 className='textAlignedLeft'>Hi {currentUser.get('fullName')} 👋</h3>
         <div className="searchContainer">
           <input
             type="text"
-            placeholder=" "
+            placeholder="Search through chats"
             value={searchTerm}
             onChange={handleSearch}
             className="searchInput"
