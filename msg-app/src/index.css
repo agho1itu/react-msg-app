@@ -65,6 +65,13 @@ h4 {
   width: 85%;
 }
 
+.error-message {
+  color: red;
+  margin-bottom: 9px;
+  margin-left: 8px;
+  font-size: 12px;
+}
+
 .fields {
   display: flex;
   flex-direction: column;
@@ -135,8 +142,6 @@ button:active {
   border-radius: 37px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
-
-
 
 /* xxx */
 .textAlignedLeft {
