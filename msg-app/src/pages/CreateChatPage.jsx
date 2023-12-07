@@ -5,11 +5,12 @@ import Header from '../components/Header';
 import Input from '../components/Input';
 
 const CreateChatPage = () => {
-  const { userId } = useParams(); // creates a nested path using the otherUsers id 
+  const { userId } = useParams();
   const navigate = useNavigate();
   const currentUser = Parse.User.current();
   const [otherUser, setOtherUser] = useState('');
   const [newMessageContent, setNewMessageContent] = useState('');
+  const [chatId, setChatId] = useState(null);
 
   useEffect(() => {
     loadOtherUser();
@@ -20,12 +21,9 @@ const CreateChatPage = () => {
       // determine who is the other user using the userId 
       let otherUserQuery = new Parse.Query('User');
       otherUserQuery.equalTo('objectId', userId);
-      // the find function creates an array to store query restults
       let otherUserFind = await otherUserQuery.find();
 
-      // check if the array is filled by determining its content to be more that 0 items 
       if (otherUserFind.length > 0) {
-        // set the other user by targeting the first (and only) item in our array
         setOtherUser(otherUserFind[0]);
       } else {
         console.error('User not found');
@@ -35,39 +33,34 @@ const CreateChatPage = () => {
     }
   };
 
-  const createChat = async () => {
+  const handleSendMessage = async () => {
     try {
       // create a new chat between current user and other user
       const Chat = new Parse.Object('Chat');
       Chat.set('p1', currentUser);
       Chat.set('p2', otherUser);
 
-      // save chat to back4app
+      // save chat to Back4App
       const newChat = await Chat.save();
 
-      // redirect to the ChatRoomPage with the correct chatId
-      navigate(`/chat_room/${newChat.id}`);
-    } catch (error) {
-      console.error('Error creating Chat:', error);
-    }
-  };
+      // set the chatId in the state
+      setChatId(newChat.id);
 
-  const handleSendMessage = async () => {
-    try {
       // create a new message
       const Message = new Parse.Object('Message');
       Message.set('sender', currentUser);
       Message.set('receiver', otherUser);
       Message.set('content', newMessageContent);
+      Message.set('chat', Parse.Object.extend('Chat').createWithoutData(newChat.id));
 
-      // save message to back4app
+      // save message to Back4App
       await Message.save();
 
       // clear the input field
       setNewMessageContent('');
 
-      // create a new chat and redirect to the ChatRoom page
-      await createChat();
+      // redirect to the ChatRoomPage with the correct chatId
+      navigate(`/chat_room/${newChat.id}`);
     } catch (error) {
       console.error('Error handling send message:', error);
     }
