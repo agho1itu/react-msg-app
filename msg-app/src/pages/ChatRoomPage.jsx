@@ -10,7 +10,7 @@ const ChatRoomPage = () => {
   const [messages, setMessages] = useState([]);
   const [otherUser, setOtherUser] = useState('');
   const [newMessageContent, setNewMessageContent] = useState('');
-  const [showScamPopup, setShowScamPopup] = useState(false);
+  const [showScamPopup, setShowScamPopup] = useState(true);
   const currentUser = Parse.User.current();
   let liveQuery;
 
@@ -149,12 +149,12 @@ const ChatRoomPage = () => {
       {showScamPopup && (
         <Popup open modal closeOnDocumentClick={false}>
           <div className="popup-container">
-            <div className="popup-header">Scam Alert!</div>
+            <div className="popup-header">Possible Scam Alert!</div>
             <div className="popup-content">
-              Scam words have been detected in the message!
+            We have detected a possible scam in your message. Remember never to give up your personal information.
             </div>
             <div className="popup-actions">
-              <button className="popup-close" onClick={() => setShowScamPopup(false)}>
+              <button className="secondary-button" onClick={() => setShowScamPopup(false)}>
                 Close
               </button>
             </div>
