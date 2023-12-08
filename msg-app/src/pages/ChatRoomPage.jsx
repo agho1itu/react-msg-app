@@ -104,7 +104,8 @@ const ChatRoomPage = () => {
   return (
     <div className='pageBody'>
       <Header type='withBackButton' pageTitle={otherUser ? otherUser.get('fullName') : 'Chat Room'} />
-      <div className='container-message'>
+      <div className = 'container'>
+      <div className='container-scroll'>
         {messages.map((msg) => (
           <div 
           key={msg.id}
@@ -115,7 +116,7 @@ const ChatRoomPage = () => {
           </div>
         ))}
       </div>
-      <div className='message-box'>
+      <div className='input-and-send '>
           <Input
             type='text'
             value={newMessageContent}
@@ -128,7 +129,6 @@ const ChatRoomPage = () => {
         </div>
       </div>
     </div>
-    
   );
 };
 
