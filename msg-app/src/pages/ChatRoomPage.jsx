@@ -66,8 +66,6 @@ const ChatRoomPage = () => {
       // Determine the other user based on the participants
       const otherUserInChat = user1.id === currentUser.id ? user2 : user1;
 
-      console.log('Other User:', otherUserInChat);
-
       // Fetch messages
       const msgQuery = new Parse.Query('Message');
       msgQuery.equalTo('chat', chatRoom);
@@ -101,22 +99,41 @@ const ChatRoomPage = () => {
     }
   };
 
+  let ScamWords = ['mitid', 'cpr', 'account'];
+  // Inside your component function
+  const handleScamCheck = () => {
+    const scamMessages = messages.filter((msg) => {
+      const content = msg.get('content').toLowerCase();
+      return ScamWords.some((scamWord) => content.includes(scamWord.toLowerCase()));
+    });
+
+    if (scamMessages.length > 0) {
+      console.log('Scam words detected in messages:', scamMessages);
+      // Notify the currentUser or take appropriate action
+    }
+  };
+
+  // Call the scam check function whenever messages are updated
+  useEffect(() => {
+    handleScamCheck();
+  }, [messages]);
+
   return (
     <div className='pageBody'>
       <Header type='withBackButton' pageTitle={otherUser ? otherUser.get('fullName') : 'Chat Room'} />
-      <div className = 'container'>
-      <div className='container-scroll'>
-        {messages.map((msg) => (
-          <div 
-          key={msg.id}
-          className={`message ${msg.get('sender').id === currentUser.id ? 'currentUser' : 'otherUser'}`}
-          >
-            <p>{msg.get('content')}</p>
-            <p className='sender-id'>{msg.get('sender').get('fullName')}</p>
-          </div>
-        ))}
-      </div>
-      <div className='input-and-send '>
+      <div className='container'>
+        <div className='container-scroll'>
+          {messages.map((msg) => (
+            <div
+              key={msg.id}
+              className={`message ${msg.get('sender').id === currentUser.id ? 'currentUser' : 'otherUser'}`}
+            >
+              <p>{msg.get('content')}</p>
+              <p className='sender-id'>{msg.get('sender').get('fullName')}</p>
+            </div>
+          ))}
+        </div>
+        <div className='input-and-send '>
           <Input
             type='text'
             value={newMessageContent}
