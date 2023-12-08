@@ -13,6 +13,10 @@ const ChatRoomPage = () => {
   let liveQuery;
 
   useEffect(() => {
+    loadChatData();
+  }, [chatId]); // load initial chat data when the chatId changes
+
+  useEffect(() => {
     // I find no other way to use live query to put it in the local file
     liveQuery = new Parse.LiveQueryClient({
       applicationId: 'ZGpRVylGtuaaaDeThtIbmbTysyYrHmynWPtsrHYd',
@@ -28,9 +32,10 @@ const ChatRoomPage = () => {
     query.equalTo('chat', Parse.Object.extend('Chat').createWithoutData(chatId));
     const subscription = liveQuery.subscribe(query);
 
-    // Event listeners for live query d
+    // Event listeners for live query 
     subscription.on('create', (object) => {
       setMessages((prevMessages) => [...prevMessages, object]);
+      handleScamCheck(object);
     });
 
     subscription.on('update', (object) => {
@@ -43,13 +48,10 @@ const ChatRoomPage = () => {
       setMessages((prevMessages) => prevMessages.filter((msg) => msg.id !== object.id));
     });
 
-    // Load initial chat data
-    loadChatData();
-
     return () => {
       // Close the subscription and WebSocket connection when the component unmounts
       subscription.unsubscribe();
-      liveQuery.close();
+      // liveQuery.close();
     };
   }, [chatId]);
 
@@ -100,23 +102,25 @@ const ChatRoomPage = () => {
   };
 
   let ScamWords = ['mitid', 'cpr', 'account'];
-  // Inside your component function
-  const handleScamCheck = () => {
-    const scamMessages = messages.filter((msg) => {
-      const content = msg.get('content').toLowerCase();
-      return ScamWords.some((scamWord) => content.includes(scamWord.toLowerCase()));
-    });
 
-    if (scamMessages.length > 0) {
-      console.log('Scam words detected in messages:', scamMessages);
-      // Notify the currentUser or take appropriate action
+  // function to check if all messages in a chat contains any ScamWords
+ const handleScamCheck = (newMessage) => {
+    if (newMessage && newMessage.get('sender').id === otherUser.id) {
+      const content = newMessage.get('content').toLowerCase();
+      const isScam = ScamWords.some((scamWord) => content.includes(scamWord.toLowerCase()));
+
+      if (isScam) {
+        console.log('Scam word detected in the new message:', newMessage);
+        // Add notification logic here! Notify the currentUser or take appropriate action
+      }
     }
   };
 
-  // Call the scam check function whenever messages are updated
+  // call the scam check function whenever messages are updated
   useEffect(() => {
     handleScamCheck();
-  }, [messages]);
+    // the effect will only trigger when new messages are added
+  }, [messages.length]);
 
   return (
     <div className='pageBody'>
