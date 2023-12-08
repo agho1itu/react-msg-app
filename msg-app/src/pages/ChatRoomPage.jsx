@@ -106,6 +106,10 @@ const ChatRoomPage = () => {
         if (!showScamPopup) {
           setShowScamPopup(true);
         }
+        else {
+          //else, if scam words is not detected, the showScamPopup is set to 'false' = the pop-up is not triggered
+          setShowScamPopup(false);
+        }
       }
     }
   };
