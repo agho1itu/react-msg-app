@@ -296,9 +296,9 @@ display: flex;
   font-weight: 400;
   color: #575757;
   box-shadow: 200px 200px 200px 500px rgba(0, 0, 0, 0.7);
-  margin: 10px;
-
+  margin: 30px;
 }
+
 .popup-header{
   color: #222222;
   font-size: large;
@@ -307,6 +307,13 @@ display: flex;
   padding-top: 10px;
   padding-bottom: 10px;
 }
+.popup-bot {
+  background-color: #629DD3;
+  border-radius: 50%;
+  width:fit-content;
+  padding: 5px;
+}
+
 .popup-content {
   padding-bottom: 20px;
   color: #222222;
@@ -318,3 +325,6 @@ display: flex;
   padding-bottom: 10px;
 }
 
+.scam-word {
+  color:red;
+}
