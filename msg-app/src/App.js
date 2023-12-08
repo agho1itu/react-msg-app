@@ -9,12 +9,12 @@ import NewChatPage from './pages/NewChatPage';
 import Parse from 'parse';
 
 // Parse initialization
-const PARSE_APPLICATION_ID = 'ZGpRVylGtuaaaDeThtIbmbTysyYrHmynWPtsrHYd';
+const PARSE_APPLICATION_ID = 'CWTtJ1moggMgSrzdTUjHl3UwQpowT0P9WYCaEPKB';
 const PARSE_HOST_URL = 'https://parseapi.back4app.com/';
-const PARSE_JAVASCRIPT_KEY = '845ciERhFQKXd8ShiPpPK6A5sW1wWOIUx3uw1fwY';
+const PARSE_JAVASCRIPT_KEY = 'ouxrA2YF72PUwhP7dVQRVDjvg7ks335XLo3BTizh';
 Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
 Parse.serverURL = PARSE_HOST_URL;
-Parse.liveQueryServerURL = 'ws://safechat20.b4a.io'; 
+Parse.liveQueryServerURL = 'ws://safechat3.b4a.io'; 
 
 
 // React functional component for the App
