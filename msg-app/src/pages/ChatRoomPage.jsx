@@ -4,8 +4,6 @@ import Input from '../components/Input';
 import Parse from 'parse';
 import { useParams } from 'react-router-dom';
 import Popup from 'reactjs-popup';
-import scambot from '../components/assets/scambot.svg';
-
 
 const ChatRoomPage = () => {
   const { chatId } = useParams();
@@ -115,8 +113,11 @@ const ChatRoomPage = () => {
 
 
   useEffect(() => {
-    handleScamCheck();
-  }, [messages.length]);
+    if (messages.length > 0) {
+      const lastMessage = messages[messages.length - 1];
+      handleScamCheck(lastMessage);
+    }
+  }, [messages]);
 
   return (
     <div className='pageBody'>
@@ -148,9 +149,6 @@ const ChatRoomPage = () => {
       {showScamPopup && (
         <Popup open modal closeOnDocumentClick={false}>
           <div className="popup-container">
-            <div className='popup-bot'>
-              <img src={scambot} />
-            </div>
             <div className="popup-header">Possible Scam Alert!</div>
             <div className="popup-content">
               We have detected a possible scam in your message. Remember never to give up your personal information.
@@ -168,3 +166,4 @@ const ChatRoomPage = () => {
 };
 
 export default ChatRoomPage;
+
