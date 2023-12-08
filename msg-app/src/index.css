@@ -53,7 +53,7 @@ h4 {
 /* Header styling */
 .header {
   width: 80%;
-  height: 60px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -132,7 +132,6 @@ button:active {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 6%;
   width: 100%;
   background: #FAF7F7;
   border-top-right-radius: 37px;
@@ -162,7 +161,7 @@ button:active {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 35px 10px;
+  padding: 20px 35px 7px;
 }
 
 /* Chat in chat list styling */
@@ -250,6 +249,10 @@ display: flex;
   box-shadow: 5px 5px 5px #DBDBDB;
 }
 
+.input-and-send .inputField {
+  margin: 0;
+  width: 65%;
+}
 
 .input-and-send {
   display: flex;
@@ -257,7 +260,7 @@ display: flex;
   align-items: center;
   justify-content: space-around;
   width: 100%;
-  padding-top: 5px;
+  margin: 20px;
 }
 
 .currentUser {

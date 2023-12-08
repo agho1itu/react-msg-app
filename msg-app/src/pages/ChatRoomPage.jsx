@@ -12,8 +12,7 @@ const ChatRoomPage = () => {
   const [messages, setMessages] = useState([]);
   const [otherUser, setOtherUser] = useState('');
   const [newMessageContent, setNewMessageContent] = useState('');
-  const [showScamPopup, setShowScamPopup] = useState(true);
-
+  const [showScamPopup, setShowScamPopup] = useState(false);
   const currentUser = Parse.User.current();
   let liveQuery;
 
@@ -103,16 +102,13 @@ const ChatRoomPage = () => {
       const content = newMessage.get('content').toLowerCase();
       const isScam = ScamWords.some((scamWord) => content.includes(scamWord.toLowerCase()));
 
-      if (isScam) {
+      if (isScam && !showScamPopup) {
         console.log('Scam word detected in the new message:', newMessage);
         // Show the scam popup only if it's not already shown
-        if (!showScamPopup) {
-          setShowScamPopup(true);
-        }
-        else {
-          //else, if scam words is not detected, the showScamPopup is set to 'false' = the pop-up is not triggered
-          setShowScamPopup(false);
-        }
+        setShowScamPopup(true);
+      } else if (!isScam && showScamPopup) {
+        //else, if scam words is not detected, the showScamPopup is set to 'false' = the pop-up is not triggered
+        setShowScamPopup(false);
       }
     }
   };
@@ -142,7 +138,7 @@ const ChatRoomPage = () => {
             type='text'
             value={newMessageContent}
             onChange={(e) => setNewMessageContent(e.target.value)}
-            placeholder='type your message...'
+            placeholder='Type your message...'
           />
           <button className='primaryButton' onClick={handleSendMessage}>
             Send

@@ -83,7 +83,7 @@ const ChatListPage = () => {
             }}
           />
         </div>
-        <h4>Recent chats</h4>
+        <h4 className="text-aligned-left">Your chats</h4>
         <div className='chat-list'>
           {filteredChats.map(chat => (
             <div key={chat.id} className="message-list">
