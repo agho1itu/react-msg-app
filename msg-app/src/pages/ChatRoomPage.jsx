@@ -5,39 +5,32 @@ import Parse from 'parse';
 import { useParams } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
-
 const ChatRoomPage = () => {
   const { chatId } = useParams();
   const [messages, setMessages] = useState([]);
   const [otherUser, setOtherUser] = useState('');
   const [newMessageContent, setNewMessageContent] = useState('');
-  //This is set to false so the pop-up is not always displayed (i think)
   const [showScamPopup, setShowScamPopup] = useState(false);
-
   const currentUser = Parse.User.current();
   let liveQuery;
 
   useEffect(() => {
     loadChatData();
-  }, [chatId]); // load initial chat data when the chatId changes
+  }, [chatId]);
 
   useEffect(() => {
-    // I find no other way to use live query to put it in the local file
     liveQuery = new Parse.LiveQueryClient({
       applicationId: 'ZGpRVylGtuaaaDeThtIbmbTysyYrHmynWPtsrHYd',
       serverURL: 'ws://safechat20.b4a.io',
     });
 
-    // Open the WebSocket connection
     liveQuery.open();
     console.log('WebSocket connection opened');
 
-    // Subscribe to the 'Message' class live query for the specific chatId
     const query = new Parse.Query('Message');
     query.equalTo('chat', Parse.Object.extend('Chat').createWithoutData(chatId));
     const subscription = liveQuery.subscribe(query);
 
-    // Event listeners for live query 
     subscription.on('create', (object) => {
       setMessages((prevMessages) => [...prevMessages, object]);
       handleScamCheck(object);
@@ -54,9 +47,8 @@ const ChatRoomPage = () => {
     });
 
     return () => {
-      // Close the subscription and WebSocket connection when the component unmounts
       subscription.unsubscribe();
-      // liveQuery.close();
+      liveQuery.close();
     };
   }, [chatId]);
 
@@ -65,15 +57,12 @@ const ChatRoomPage = () => {
       const chatRoom = new Parse.Object('Chat');
       chatRoom.id = chatId;
 
-      // Fetch the chat to get the participants
       const chatUsers = await chatRoom.fetch({ include: ['p1', 'p2'] });
       const user1 = chatUsers.get('p1');
       const user2 = chatUsers.get('p2');
 
-      // Determine the other user based on the participants
       const otherUserInChat = user1.id === currentUser.id ? user2 : user1;
 
-      // Fetch messages
       const msgQuery = new Parse.Query('Message');
       msgQuery.equalTo('chat', chatRoom);
       msgQuery.include('sender', 'receiver');
@@ -96,40 +85,34 @@ const ChatRoomPage = () => {
       Message.set('content', newMessageContent);
       Message.set('chat', Parse.Object.extend('Chat').createWithoutData(chatId));
 
-      // save the new message to Parse
       await Message.save();
 
-      // clear the input field
       setNewMessageContent('');
     } catch (error) {
       console.error('Error sending message:', error);
     }
   };
 
-  let ScamWords = ['mitid', 'cpr', 'account'];
-  //he handleScamCheck function is responsible for checking whether scam words are present in the messages.
-  const handleScamCheck = () => {
-    //it filters through the messages array to find messages that contains scam words
-    const scamMessages = messages.filter((msg) => {
-      const content = msg.get('content').toLowerCase();
-      return ScamWords.some((scamWord) => content.includes(scamWord.toLowerCase()));
-    });
+  const ScamWords = ['mitid', 'cpr', 'account'];
 
-    //if scam words are detected, the showScamPopup is set to 'true'
-    if (scamMessages.length > 0) {
-      console.log('Scam words detected in messages:', scamMessages);
-      //if scam words are detected, the showScamPopup is set to 'true' = the pop-up is triggered
-      setShowScamPopup(true);
-    } else {
-      //else, if scam words is not detected, the showScamPopup is set to 'false' = the pop-up is not triggered
-      setShowScamPopup(false);
+  const handleScamCheck = (newMessage) => {
+    if (newMessage && newMessage.get('sender').id === otherUser.id) {
+      const content = newMessage.get('content').toLowerCase();
+      const isScam = ScamWords.some((scamWord) => content.includes(scamWord.toLowerCase()));
+
+      if (isScam) {
+        console.log('Scam word detected in the new message:', newMessage);
+        // Show the scam popup only if it's not already shown
+        if (!showScamPopup) {
+          setShowScamPopup(true);
+        }
+      }
     }
   };
 
-  // call the scam check function whenever messages are updated
+
   useEffect(() => {
     handleScamCheck();
-    // the effect will only trigger when new messages are added
   }, [messages.length]);
 
   return (
@@ -159,10 +142,6 @@ const ChatRoomPage = () => {
           </button>
         </div>
       </div>
-      {/* By using {showScamPopup && (...)} the pop-up will only be renderet when showScamPopup = 'true'
-          The Popup-component is set to 'open' = allowing it to be visible when showScamPopup = 'true' 
-          The closeOnDocumentClick={false} prevent the pop-up from closing when clicking outsie of it
-          The close button (popup-close) sets the showScamPopup to 'false' hiding the pop-up on-click*/}
       {showScamPopup && (
         <Popup open modal closeOnDocumentClick={false}>
           <div className="popup-container">
