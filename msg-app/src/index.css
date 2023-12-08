@@ -266,3 +266,21 @@ display: flex;
   text-align: right;
   padding-top: 5px;
 }
+
+.popup-container {
+  background-color: red;
+}
+.popup-header{
+  color: #4B957B;
+}
+
+.popup-content {
+  color: #222222;
+}
+.popup-actions {
+  background-color: #88B4DD;
+}
+
+.popup-close {
+  background-color: #D9D9D9;
+}

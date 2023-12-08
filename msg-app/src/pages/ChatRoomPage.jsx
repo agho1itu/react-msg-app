@@ -3,12 +3,17 @@ import Header from '../components/Header';
 import Input from '../components/Input';
 import Parse from 'parse';
 import { useParams } from 'react-router-dom';
+import Popup from 'reactjs-popup';
+
 
 const ChatRoomPage = () => {
   const { chatId } = useParams();
   const [messages, setMessages] = useState([]);
   const [otherUser, setOtherUser] = useState('');
   const [newMessageContent, setNewMessageContent] = useState('');
+  //This is set to false so the pop-up is not always displayed (i think)
+  const [showScamPopup, setShowScamPopup] = useState(false);
+
   const currentUser = Parse.User.current();
   let liveQuery;
 
@@ -102,17 +107,22 @@ const ChatRoomPage = () => {
   };
 
   let ScamWords = ['mitid', 'cpr', 'account'];
+  //he handleScamCheck function is responsible for checking whether scam words are present in the messages.
+  const handleScamCheck = () => {
+    //it filters through the messages array to find messages that contains scam words
+    const scamMessages = messages.filter((msg) => {
+      const content = msg.get('content').toLowerCase();
+      return ScamWords.some((scamWord) => content.includes(scamWord.toLowerCase()));
+    });
 
-  // function to check if all messages in a chat contains any ScamWords
- const handleScamCheck = (newMessage) => {
-    if (newMessage && newMessage.get('sender').id === otherUser.id) {
-      const content = newMessage.get('content').toLowerCase();
-      const isScam = ScamWords.some((scamWord) => content.includes(scamWord.toLowerCase()));
-
-      if (isScam) {
-        console.log('Scam word detected in the new message:', newMessage);
-        // Add notification logic here! Notify the currentUser or take appropriate action
-      }
+    //if scam words are detected, the showScamPopup is set to 'true'
+    if (scamMessages.length > 0) {
+      console.log('Scam words detected in messages:', scamMessages);
+      //if scam words are detected, the showScamPopup is set to 'true' = the pop-up is triggered
+      setShowScamPopup(true);
+    } else {
+      //else, if scam words is not detected, the showScamPopup is set to 'false' = the pop-up is not triggered
+      setShowScamPopup(false);
     }
   };
 
@@ -149,6 +159,25 @@ const ChatRoomPage = () => {
           </button>
         </div>
       </div>
+      {/* By using {showScamPopup && (...)} the pop-up will only be renderet when showScamPopup = 'true'
+          The Popup-component is set to 'open' = allowing it to be visible when showScamPopup = 'true' 
+          The closeOnDocumentClick={false} prevent the pop-up from closing when clicking outsie of it
+          The close button (popup-close) sets the showScamPopup to 'false' hiding the pop-up on-click*/}
+      {showScamPopup && (
+        <Popup open modal closeOnDocumentClick={false}>
+          <div className="popup-container">
+            <div className="popup-header">Scam Alert!</div>
+            <div className="popup-content">
+              Scam words have been detected in the message!
+            </div>
+            <div className="popup-actions">
+              <button className="popup-close" onClick={() => setShowScamPopup(false)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </Popup>
+      )}
     </div>
   );
 };
