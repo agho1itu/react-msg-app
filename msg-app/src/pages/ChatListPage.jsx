@@ -68,19 +68,18 @@ const ChatListPage = () => {
     <div className='pageBody'>
       <Header type='withIcons' pageTitle='Chat List' />
       <div className='container'>
-        <h3 className='textAlignedLeft'>Hi {currentUser.get('fullName')} 👋</h3>
-        <div className="searchContainer">
+        <h3 className='text-aligned-left'>Hi {currentUser.get('fullName')} 👋</h3>
+        <div className="search-container">
           <input
             type="text"
-            placeholder="Search through chats"
+            placeholder="Search Chats"
             value={searchTerm}
             onChange={handleSearch}
             className="searchInput"
             style={{
               backgroundImage: `url(${searchIcon})`, // Set background image
               backgroundRepeat: 'no-repeat',
-              backgroundPosition: '10px 50%', // Adjust position of the icon
-              paddingLeft: '40px', // Create space for the icon
+              backgroundPosition: '305px 50%', // Adjust position of the icon
             }}
           />
         </div>

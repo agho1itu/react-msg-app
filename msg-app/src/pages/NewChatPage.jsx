@@ -59,18 +59,17 @@ const NewChatPage = () => {
     <div className='pageBody'>
       <Header type='withBackButton' pageTitle='New Chat' />
       <div className='container'>
-      <div className="searchContainer">
+      <div className="search-container">
         <input
           type="text"
-          placeholder="Search through contacts"
+          placeholder="Search Contacts"
           value={searchTerm}
           onChange={handleSearch}
           className="searchInput"
           style={{
             backgroundImage: `url(${searchIcon})`, // Set background image
             backgroundRepeat: 'no-repeat',
-            backgroundPosition: '10px 50%', // Adjust position of the icon
-            paddingLeft: '40px', // Create space for the icon
+            backgroundPosition: '305px 50%', // Adjust position of the icon
           }}
         />
       </div>

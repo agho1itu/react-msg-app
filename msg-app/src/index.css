@@ -34,7 +34,6 @@ h2 {
 h3 {
   font-size: 18px;
   font-weight: 600;
-  margin: 0;
 }
 
 h4 {
@@ -158,12 +157,12 @@ button:active {
 }
 
 /* xxx */
-.textAlignedLeft {
+.text-aligned-left {
   width: 80%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 35px 20px;
+  padding: 20px 35px 10px;
 }
 
 /* Chat in chat list styling */
@@ -172,6 +171,7 @@ button:active {
   flex-direction: column;
   width: 100%;
 }
+
 .message-list {
   display: flex;
   flex-direction: row;
@@ -181,11 +181,13 @@ button:active {
   margin: 7px;
   color: #222222;
 }
+
 .message-flex {
   display: flex;
   flex-direction: column;
   text-align: right;
 }
+
 .profilepic {
   display: flex;
   align-items: center;
@@ -199,9 +201,11 @@ button:active {
   font-weight: 600;
   font-size: 20px;
 }
+
 .previewInfo {
   width: 100%;
 }
+
 .time {
 display: flex;
 }
@@ -213,24 +217,20 @@ display: flex;
 
 /* ChatListPage.css */
 
-.searchContainer {
+.search-container {
   display: flex;
-  width: 80%;
+  width: 90%;
+  height: 50px;
+  padding: 15px;
 }
 
 .searchInput {
   width: 100%;
-  padding: 10px;
-  border-radius: 20px;
-  font-size: 16px;
-  margin-bottom: 15px;
-  margin-left: 0px;
-  background-color: #D9D9D9;
+  padding: 20px;
+  border-radius: 50px;
+  font-size: 14px;
   color: #3D3D3D;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 400;
-  font-size: 12px;
-  
+  background-color: #E8E8EA;
 }
 
 .container-scroll {
