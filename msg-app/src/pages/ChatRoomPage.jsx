@@ -226,7 +226,6 @@ const ChatRoomPage = () => {
                 {highlightScamWords(msg.get('content'))}
               </p>
               <p className='sender-id'>{msg.get('sender').get('fullName')}</p>
-              <p className='sender-id'>{msg.get('sender').get('fullName')}</p>
             </div>
           ))}
           {/* Create an invisible div that serves as a reference to scroll to */}
@@ -251,15 +250,15 @@ const ChatRoomPage = () => {
           <div className='popup-bot'><img src={scambot}></img></div>
           <div className="popup-header">Possible Scam Alert!</div>
           <div className="popup-content">
-              <p>We have detected possible scam in your message, due to the word:</p>
+              <p>Possible scam in your message, due to:</p>
               <p className='scam-word'>"{detectedScamWord}"</p>
               <p>Remember never to give up your personal information.</p>
           </div>
           <div className="popup-actions">
             <button className="secondary-button" onClick={() => setShowScamPopup(false)}>
-              I understand
+              Ignore
             </button>
-              <button className="secondary-button" onClick={handleBlockUser}>
+              <button className="tertiary-button" onClick={handleBlockUser}>
                 Block User
               </button>
           </div>

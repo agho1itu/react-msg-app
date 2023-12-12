@@ -118,6 +118,7 @@ button:active {
   border-radius: 40px;
   font-size: 12px;
   font-weight: 600;
+  margin: 5px;
 }
 .secondary-button:hover {
   background-color: #3D3D3D;
@@ -127,15 +128,16 @@ button:active {
 }
 
 .tertiary-button {
-  background-color: #EAEAEA;
+  background-color: #DBDBDB;
   color: #222222;
   padding: 15px;
   border-radius: 40px;
   font-size: 12px;
   font-weight: 600;
+  margin: 5px;
 }
 .tertiary-button:hover {
-  background-color:  #DAD9DE;
+  background-color: #DAD9DE;
 }
 .tertiary-button:active {
   background-color: #ACACAD;
@@ -339,6 +341,10 @@ display: flex;
   text-align: center;
 }
 .popup-actions {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center; 
   background-color: #FAF7F7;
   text-align: center;
   padding-bottom: 10px;
