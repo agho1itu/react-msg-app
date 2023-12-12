@@ -233,7 +233,6 @@ display: flex;
 }
 
 /* ChatListPage.css */
-
 .search-container {
   display: flex;
   width: 90%;
@@ -250,38 +249,46 @@ display: flex;
   background-color: #E8E8EA;
 }
 
-.user-details {
-  display: flex;
-  justify-content: space-between;
-}
-
-.previewInfo {
-  display: flex;
-  flex-direction: column;
-  margin-left: 5px;
-  width: 60%; 
-}
-
-.previewText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 70%;
-}
-
-.timestamp {
-  color: #777;
-  font-size: 12px;
-}
-
 .message-list {
-  align-items: center;
-  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
   margin: 15px;
   padding: 10px;
   color: #222222;
 }
 
+.user-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+.previewInfo {
+  display: flex;
+  width: 60%; 
+  white-space: nowrap;
+  font-style: italic;
+  font-size: 15px;
+}
+
+/*.previewText {
+  display: flex;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+}
+*/
+
+.timestamp {
+  display: flex;
+  color: #777;
+  font-size: 12px;
+}
+
+
+
+/* Chat Room Page*/
 .container-scroll {
   display: flex;
   flex-direction: column;
