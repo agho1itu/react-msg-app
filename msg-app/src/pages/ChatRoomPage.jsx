@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import Header from '../components/Header';
 import Input from '../components/Input';
 import Parse from 'parse';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 import scambot from '../components/assets/scambot.svg';
 import send from '../components/assets/send.svg';
@@ -191,6 +191,8 @@ const ChatRoomPage = () => {
     }
   };
 
+  const navigate = useNavigate();
+
   const handleBlockUser = async () => {
     try {
       console.log('handleBlockUser called');
@@ -202,6 +204,7 @@ const ChatRoomPage = () => {
         await blockUser();
         console.log('User blocked successfully');
         // Consider updating the UI to reflect the blocked state
+        navigate('/chat_list');
       } else {
         console.log('User is already blocked');
       }
