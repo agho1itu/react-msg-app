@@ -5,6 +5,7 @@ import Parse from 'parse';
 import { useParams } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 import scambot from '../components/assets/scambot.svg';
+import send from '../components/assets/send.svg';
 
 const ChatRoomPage = () => {
   const { chatId } = useParams();
@@ -183,7 +184,7 @@ const ChatRoomPage = () => {
           placeholder='Type your message...'
         />
         <button className='primaryButton' onClick={handleSendMessage}>
-          Send
+        <img src={send}></img>
         </button>
       </div>
     </div>

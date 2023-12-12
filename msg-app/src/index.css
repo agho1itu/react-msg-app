@@ -126,6 +126,21 @@ button:active {
   background-color: #575757;
 }
 
+.tertiary-button {
+  background-color: #EAEAEA;
+  color: #222222;
+  padding: 15px;
+  border-radius: 40px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.tertiary-button:hover {
+  background-color:  #DAD9DE;
+}
+.tertiary-button:active {
+  background-color: #ACACAD;
+}
+
 
 /* Containers styling */
 .container {
