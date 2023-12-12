@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Header from '../components/Header';
 import Input from '../components/Input';
 import Parse from 'parse';
 import { useParams } from 'react-router-dom';
 import Popup from 'reactjs-popup';
-import scambot from '../components/assets/scambot.svg'; 
+import scambot from '../components/assets/scambot.svg';
 
 const ChatRoomPage = () => {
   const { chatId } = useParams();
@@ -147,6 +147,18 @@ const ChatRoomPage = () => {
     }
   }, [messages]);
 
+  //useRef is a React Hook: helps remember and control the position of the invisible <div> element, ensuring that whenever new messages arrive, the page scrolls down to display the latest message at the bottom of the chat container.
+  //Create a reference to the bottom of the chat container
+  const messagesEndRef = useRef(null);
+  // Function to scroll to the bottom of the chat container
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+  // useEffect to scroll to the bottom whenever a messages is recived or send
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   return (
     <div className='pageBody'>
       <Header type='withBackButton' pageTitle={otherUser ? otherUser.get('fullName') : 'Chat Room'} />
@@ -157,45 +169,49 @@ const ChatRoomPage = () => {
               key={msg.id}
               className={`message ${msg.get('sender').id === currentUser.id ? 'currentUser' : 'otherUser'}`}
             >
-            <p>
-              {/* Render the modified message content with highlighted scam words */}
-              {highlightScamWords(msg.get('content'))}
-            </p>            
-            <p className='sender-id'>{msg.get('sender').get('fullName')}</p>
+              <p>
+                {/* Render the modified message content with highlighted scam words */}
+                {highlightScamWords(msg.get('content'))}
+              </p>
+              <p className='sender-id'>{msg.get('sender').get('fullName')}</p>
             </div>
           ))}
-        </div>
-        <div className='input-and-send '>
-          <Input
-            type='text'
-            value={newMessageContent}
-            onChange={(e) => setNewMessageContent(e.target.value)}
-            placeholder='Type your message...'
-          />
-          <button className='primaryButton' onClick={handleSendMessage}>
-            Send
-          </button>
-        </div>
+          {/* Create an invisible div that serves as a reference to scroll to */}
+          <div ref={messagesEndRef} />
       </div>
-      {showScamPopup && (
-        <Popup open modal closeOnDocumentClick={false}>
-          <div className="popup-container">
-            <div className='popup-bot'><img src={scambot}></img></div>
-            <div className="popup-header">Possible Scam Alert!</div>
-            <div className="popup-content">
+      <div className='input-and-send '>
+        <Input
+          type='text'
+          value={newMessageContent}
+          onChange={(e) => setNewMessageContent(e.target.value)}
+          placeholder='Type your message...'
+        />
+        <button className='primaryButton' onClick={handleSendMessage}>
+          Send
+        </button>
+      </div>
+    </div>
+      {
+    showScamPopup && (
+      <Popup open modal closeOnDocumentClick={false}>
+        <div className="popup-container">
+          <div className='popup-bot'><img src={scambot}></img></div>
+          <div className="popup-header">Possible Scam Alert!</div>
+          <div className="popup-content">
             <p>We have detected possible scam in your message, due to the word:</p>
             <p className='scam-word'>"{detectedScamWord}"</p>
             <p>Remember never to give up your personal information.</p>
-            </div>
-            <div className="popup-actions">
-              <button className="secondary-button" onClick={() => setShowScamPopup(false)}>
-                I understand
-              </button>
-            </div>
           </div>
-        </Popup>
-      )}
-    </div>
+          <div className="popup-actions">
+            <button className="secondary-button" onClick={() => setShowScamPopup(false)}>
+              I understand
+            </button>
+          </div>
+        </div>
+      </Popup>
+    )
+  }
+    </div >
   );
 };
 
