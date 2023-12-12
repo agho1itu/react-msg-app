@@ -16,8 +16,8 @@ const ChatRoomPage = () => {
   let liveQuery;
 
   useEffect(() => {
-    loadChatData();
-  }, [chatId]);
+    loadChatData(chatId, currentUser, setMessages, setOtherUser); // Call loadChatData
+  }, [chatId, currentUser]); // Include chatId and currentUser in the dependency array
 
   useEffect(() => {
     liveQuery = new Parse.LiveQueryClient({
@@ -78,17 +78,23 @@ const ChatRoomPage = () => {
     }
   };
 
+  //i replaced the 'handleSendMessage' function in the code -> now it checks if 'newMessageContent' is empty before sending
   const handleSendMessage = async () => {
     try {
-      const Message = new Parse.Object('Message');
-      Message.set('sender', currentUser);
-      Message.set('receiver', otherUser);
-      Message.set('content', newMessageContent);
-      Message.set('chat', Parse.Object.extend('Chat').createWithoutData(chatId));
+      if (newMessageContent.trim() !== '') { // Check if message content is not empty or just whitespace
+        const Message = new Parse.Object('Message');
+        Message.set('sender', currentUser);
+        Message.set('receiver', otherUser);
+        Message.set('content', newMessageContent);
+        Message.set('chat', Parse.Object.extend('Chat').createWithoutData(chatId));
 
-      await Message.save();
+        await Message.save();
 
-      setNewMessageContent('');
+        setNewMessageContent('');
+      } else {
+        console.log('Message content is empty!');
+        // Optionally, you can show an alert or provide feedback to the user that the message cannot be empty
+      }
     } catch (error) {
       console.error('Error sending message:', error);
     }
@@ -168,4 +174,3 @@ const ChatRoomPage = () => {
 };
 
 export default ChatRoomPage;
-
