@@ -139,12 +139,12 @@ const ChatRoomPage = () => {
     });
   };
 
-
   useEffect(() => {
     if (messages.length > 0) {
       const lastMessage = messages[messages.length - 1];
       handleScamCheck(lastMessage);
     }
+    scrollToBottom();
   }, [messages]);
 
   //useRef is a React Hook: helps remember and control the position of the invisible <div> element, ensuring that whenever new messages arrive, the page scrolls down to display the latest message at the bottom of the chat container.
@@ -154,11 +154,7 @@ const ChatRoomPage = () => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-  // useEffect to scroll to the bottom whenever a messages is recived or send
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
+ 
   return (
     <div className='pageBody'>
       <Header type='withBackButton' pageTitle={otherUser ? otherUser.get('fullName') : 'Chat Room'} />
