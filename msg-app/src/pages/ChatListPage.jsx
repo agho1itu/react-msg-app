@@ -4,6 +4,7 @@ import Parse from 'parse';
 import { Link } from 'react-router-dom';
 import searchIcon from '../components/assets/search.svg'; // Import the SVG file
 
+
 const ChatListPage = () => {
   // State variables to manage chat list, search term, and current user
   const [chatList, setChatList] = useState([]);
@@ -98,7 +99,6 @@ const formatTimestamp = (timestamp) => {
   return date.toLocaleString('en-US', options);
 };
 
-// Function to truncate the message to 7 words
 const truncateMessage = (message) => {
   const words = message.split(' ');
   if (words.length > 7) {
@@ -113,42 +113,32 @@ return (
     <div className='container'>
       <h3 className='text-aligned-left'>Hi {currentUser.get('fullName')} 👋</h3>
       <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search Chats"
-          value={searchTerm}
-          onChange={handleSearch}
-          className="searchInput"
-          style={{
-            backgroundImage: `url(${searchIcon})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: '305px 50%',
-          }}
-        />
+        {/* Existing search input */}
       </div>
       <h4 className="text-aligned-left">Your chats</h4>
       <div className='chat-list'>
-      {filteredChats.map(chat => {
-  const recentContent = recentMessages[chat.id] ? recentMessages[chat.id].get('content') : '';
-  const words = recentContent.split(' ');
-  const previewText = words.length > 7 ? `${words.slice(0, 7).join(' ')} ...` : recentContent;
+        {filteredChats.map(chat => {
+          const recentContent = recentMessages[chat.id] ? recentMessages[chat.id].get('content') : '';
+          const words = recentContent.split(' ');
+          const previewText = words.length > 7 ? `${words.slice(0, 7).join(' ')} ...` : recentContent;
 
-  return (
-    <div key={chat.id} className="message-list">
-      <div className="profilepic">{getOtherUserFullName(chat)[0]}</div>
-      <div className='user-details'>
-      <Link to={`/chat_room/${chat.id}`}>
-        {getOtherUserFullName(chat)}
-      </Link>
-        <div className='previewInfo'>
-          <div className="content">{previewText}</div>
-        </div>
-
-        <div className="timestamp">{formatTimestamp(recentMessages[chat.id]?.createdAt)}</div>
-      </div>
-    </div>
-  );
-})}
+          return (
+            <div key={chat.id} className="message-list">
+              <div className="profilepic">{getOtherUserFullName(chat)[0]}</div>
+              <div className='user-details'>
+                <Link to={`/chat_room/${chat.id}`} className='name'>
+                  {getOtherUserFullName(chat)}
+                </Link>
+                <Link to={`/chat_room/${chat.id}`} className='previewInfo'>
+                  <div className="content">{previewText}</div>
+                </Link>
+                <Link to={`/chat_room/${chat.id}`} className='timestamp'>
+                  <div>{formatTimestamp(recentMessages[chat.id]?.createdAt)}</div>
+                </Link>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   </div>
