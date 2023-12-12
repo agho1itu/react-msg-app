@@ -259,33 +259,24 @@ display: flex;
 
 .user-details {
   display: flex;
-  flex-direction: column;
-  justify-content: start;
+  flex-direction: row;
 }
 
 .previewInfo {
   display: flex;
-  width: 60%; 
-  white-space: nowrap;
-  font-style: italic;
   font-size: 15px;
+  color:#777;
 }
-
-/*.previewText {
-  display: flex;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: flex;
-}
-*/
 
 .timestamp {
-  display: flex;
-  color: #777;
+  color:#ACACAD;
   font-size: 12px;
+  min-width: 30%;
 }
 
+.chat-flex {
+  width: 100%;
+}
 
 
 /* Chat Room Page*/
