@@ -354,3 +354,36 @@ display: flex;
   background-color: yellow;
   font-weight: bold;
 }
+
+.user-details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.previewInfo {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5px;
+  width: 60%; 
+}
+
+.previewText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 70%;
+}
+
+.timestamp {
+  color: #777;
+  font-size: 12px;
+}
+
+.message-list {
+  align-items: center;
+  justify-content: space-between;
+  margin: 15px;
+  padding: 10px;
+  color: #222222;
+}
+
