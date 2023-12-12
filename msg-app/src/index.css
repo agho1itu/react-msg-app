@@ -328,7 +328,14 @@ display: flex;
   text-align: center;
   padding-bottom: 10px;
 }
-
 .scam-word {
-  color:red;
+  color:#222222;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 10px;
+}
+
+.highlighted {
+  background-color: yellow;
+  font-weight: bold;
 }

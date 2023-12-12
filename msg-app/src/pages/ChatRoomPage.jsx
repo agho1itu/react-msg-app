@@ -12,6 +12,7 @@ const ChatRoomPage = () => {
   const [otherUser, setOtherUser] = useState('');
   const [newMessageContent, setNewMessageContent] = useState('');
   const [showScamPopup, setShowScamPopup] = useState(false);
+  const [detectedScamWord, setDetectedScamWord] = useState(''); //State to hold the detected scam word
   const currentUser = Parse.User.current();
   let liveQuery;
 
@@ -99,17 +100,37 @@ const ChatRoomPage = () => {
   const handleScamCheck = (newMessage) => {
     if (newMessage && newMessage.get('sender').id === otherUser.id) {
       const content = newMessage.get('content').toLowerCase();
-      const isScam = ScamWords.some((scamWord) => content.includes(scamWord.toLowerCase()));
+      const detectedWord = ScamWords.find((scamWord) => content.includes(scamWord.toLowerCase()));
 
-      if (isScam && !showScamPopup) {
-        console.log('Scam word detected in the new message:', newMessage);
+      if (detectedWord && !showScamPopup) {
+        console.log('Scam word detected in the new message:', detectedWord);
         // Show the scam popup only if it's not already shown
+        setDetectedScamWord(detectedWord); //Set the detected scam word
         setShowScamPopup(true);
-      } else if (!isScam && showScamPopup) {
+      } else if (!detectedWord && showScamPopup) {
         //else, if scam words is not detected, the showScamPopup is set to 'false' = the pop-up is not triggered
         setShowScamPopup(false);
       }
     }
+  };
+
+  // Function to replace scam words with highlighted versions
+  const highlightScamWords = (messageContent) => {
+    // Split the message content into words
+    const words = messageContent.split(' ');
+
+    // Map through each word in the message content
+    return words.map((word, wordIndex) => {
+      // Check if the word matches any scam word
+      const isScamWord = ScamWords.some((scamWord) => word.toLowerCase().includes(scamWord.toLowerCase()));
+
+      if (isScamWord) {
+        // If a scam word is found, wrap it in a <span> with a 'highlighted' class
+        return <span key={wordIndex} className="highlighted">{word}{' '}</span>;
+      }
+      // If the word isn't a scam word, return it as it is
+      return word + ' ';
+    });
   };
 
 
@@ -130,8 +151,11 @@ const ChatRoomPage = () => {
               key={msg.id}
               className={`message ${msg.get('sender').id === currentUser.id ? 'currentUser' : 'otherUser'}`}
             >
-              <p>{msg.get('content')}</p>
-              <p className='sender-id'>{msg.get('sender').get('fullName')}</p>
+            <p>
+              {/* Render the modified message content with highlighted scam words */}
+              {highlightScamWords(msg.get('content'))}
+            </p>            
+            <p className='sender-id'>{msg.get('sender').get('fullName')}</p>
             </div>
           ))}
         </div>
@@ -153,11 +177,13 @@ const ChatRoomPage = () => {
             <div className='popup-bot'><img src={scambot}></img></div>
             <div className="popup-header">Possible Scam Alert!</div>
             <div className="popup-content">
-              We have detected a possible scam in your message. Remember never to give up your personal information.
+            <p>We have detected possible scam in your message, due to the word:</p>
+            <p className='scam-word'>"{detectedScamWord}"</p>
+            <p>Remember never to give up your personal information.</p>
             </div>
             <div className="popup-actions">
               <button className="secondary-button" onClick={() => setShowScamPopup(false)}>
-                Close
+                I understand
               </button>
             </div>
           </div>
@@ -168,4 +194,5 @@ const ChatRoomPage = () => {
 };
 
 export default ChatRoomPage;
+
 
