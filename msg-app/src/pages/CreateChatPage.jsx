@@ -18,7 +18,7 @@ const CreateChatPage = () => {
 
   const loadOtherUser = async () => {
     try {
-      // determine who is the other user using the userId 
+      // Fetch the other user using the userId 
       let otherUserQuery = new Parse.Query('User');
       otherUserQuery.equalTo('objectId', userId);
       let otherUserFind = await otherUserQuery.find();
@@ -35,32 +35,37 @@ const CreateChatPage = () => {
 
   const handleSendMessage = async () => {
     try {
-      // create a new chat between current user and other user
-      const Chat = new Parse.Object('Chat');
-      Chat.set('p1', currentUser);
-      Chat.set('p2', otherUser);
+      if (newMessageContent.trim() !== '') { // Check if message content is not empty or just whitespace
+        // Create a new chat between current user and other user
+        const Chat = new Parse.Object('Chat');
+        Chat.set('p1', currentUser);
+        Chat.set('p2', otherUser);
 
-      // save chat to Back4App
-      const newChat = await Chat.save();
+        // Save chat to Back4App
+        const newChat = await Chat.save();
 
-      // set the chatId in the state
-      setChatId(newChat.id);
+        // Set the chatId in the state
+        setChatId(newChat.id);
 
-      // create a new message
-      const Message = new Parse.Object('Message');
-      Message.set('sender', currentUser);
-      Message.set('receiver', otherUser);
-      Message.set('content', newMessageContent);
-      Message.set('chat', Parse.Object.extend('Chat').createWithoutData(newChat.id));
+        // Create a new message
+        const Message = new Parse.Object('Message');
+        Message.set('sender', currentUser);
+        Message.set('receiver', otherUser);
+        Message.set('content', newMessageContent);
+        Message.set('chat', Parse.Object.extend('Chat').createWithoutData(newChat.id));
 
-      // save message to Back4App
-      await Message.save();
+        // Save message to Back4App
+        await Message.save();
 
-      // clear the input field
-      setNewMessageContent('');
+        // Clear the input field
+        setNewMessageContent('');
 
-      // redirect to the ChatRoomPage with the correct chatId
-      navigate(`/chat_room/${newChat.id}`);
+        // Redirect to the ChatRoomPage with the correct chatId
+        navigate(`/chat_room/${newChat.id}`);
+      } else {
+        console.log('Message content is empty!');
+        // Optionally, you can show an alert or provide feedback to the user that the message cannot be empty
+      }
     } catch (error) {
       console.error('Error handling send message:', error);
     }
@@ -89,3 +94,4 @@ const CreateChatPage = () => {
 };
 
 export default CreateChatPage;
+
