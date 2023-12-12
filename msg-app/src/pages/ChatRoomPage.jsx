@@ -213,7 +213,6 @@ const ChatRoomPage = () => {
     }
   };
   
-
   return (
     <div className='pageBody'>
       <Header type='withBackButton' pageTitle={otherUser ? otherUser.get('fullName') : 'Chat Room'} />
@@ -222,8 +221,7 @@ const ChatRoomPage = () => {
           {messages.map((msg) => (
             <div
               key={msg.id}
-              className={`message ${msg.get('sender').id === currentUser.id ? 'currentUser' : 'otherUser'}`}
-            >
+              className={`message ${msg.get('sender').id === currentUser.id ? 'currentUser' : 'otherUser'}`}>
               <p>
                 {/* Render the modified message content with highlighted scam words */}
                 {highlightScamWords(msg.get('content'))}
