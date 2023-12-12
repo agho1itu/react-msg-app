@@ -136,14 +136,15 @@ return (
   return (
     <div key={chat.id} className="message-list">
       <div className="profilepic">{getOtherUserFullName(chat)[0]}</div>
+      <div className='user-details'>
       <Link to={`/chat_room/${chat.id}`}>
         {getOtherUserFullName(chat)}
       </Link>
-      <div className='user-details'>
         <div className='previewInfo'>
           <div className="content">{previewText}</div>
-          <div className="timestamp">{formatTimestamp(recentMessages[chat.id]?.createdAt)}</div>
         </div>
+
+        <div className="timestamp">{formatTimestamp(recentMessages[chat.id]?.createdAt)}</div>
       </div>
     </div>
   );
