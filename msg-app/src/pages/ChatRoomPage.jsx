@@ -156,6 +156,61 @@ const ChatRoomPage = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
  
+  // blocking user by current user
+  const isBlocked = async () => {
+    try {
+      const Block = Parse.Object.extend('Block');
+      const query = new Parse.Query(Block);
+  
+      query.equalTo('blockingUser', currentUser);
+      query.equalTo('blockedUser', otherUser);
+  
+      const result = await query.find();
+      console.log('Query result:', result);
+  
+      // Check if the result array is empty
+      return result.length > 0;
+    } catch (error) {
+      console.error('Error checking if user is blocked:', error);
+      throw error;
+    }
+  };
+  
+  const blockUser = async () => {
+    try {
+      const Block = new Parse.Object('Block');
+      Block.set('blockingUser', currentUser);
+      Block.set('blockedUser', otherUser);
+
+      await Block.save();
+
+      console.log(`User with ID ${currentUser.id} blocked user with ID ${otherUser.id}`);
+    } catch (error) {
+      console.error('Error blocking user:', error);
+      throw error;
+    }
+  };
+
+  const handleBlockUser = async () => {
+    try {
+      console.log('handleBlockUser called');
+  
+      const isUserBlocked = await isBlocked();
+      console.log('Is user blocked:', isUserBlocked);
+  
+      if (!isUserBlocked) {
+        await blockUser();
+        console.log('User blocked successfully');
+        // Consider updating the UI to reflect the blocked state
+      } else {
+        console.log('User is already blocked');
+      }
+    } catch (error) {
+      console.error('Error handling block user:', error);
+    }
+  };
+  
+
   return (
     <div className='pageBody'>
       <Header type='withBackButton' pageTitle={otherUser ? otherUser.get('fullName') : 'Chat Room'} />
@@ -170,6 +225,7 @@ const ChatRoomPage = () => {
                 {/* Render the modified message content with highlighted scam words */}
                 {highlightScamWords(msg.get('content'))}
               </p>
+              <p className='sender-id'>{msg.get('sender').get('fullName')}</p>
               <p className='sender-id'>{msg.get('sender').get('fullName')}</p>
             </div>
           ))}
@@ -195,14 +251,17 @@ const ChatRoomPage = () => {
           <div className='popup-bot'><img src={scambot}></img></div>
           <div className="popup-header">Possible Scam Alert!</div>
           <div className="popup-content">
-            <p>We have detected possible scam in your message, due to the word:</p>
-            <p className='scam-word'>"{detectedScamWord}"</p>
-            <p>Remember never to give up your personal information.</p>
+              <p>We have detected possible scam in your message, due to the word:</p>
+              <p className='scam-word'>"{detectedScamWord}"</p>
+              <p>Remember never to give up your personal information.</p>
           </div>
           <div className="popup-actions">
             <button className="secondary-button" onClick={() => setShowScamPopup(false)}>
               I understand
             </button>
+              <button className="secondary-button" onClick={handleBlockUser}>
+                Block User
+              </button>
           </div>
         </div>
       </Popup>
