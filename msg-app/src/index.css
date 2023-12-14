@@ -252,6 +252,11 @@ button:active {
   background-color: #E8E8EA;
 }
 
+/* New char room */
+.empty-chat {
+  height: 80vh;
+}
+
 /* chat-room styling */
 .container-scroll {
   display: flex;

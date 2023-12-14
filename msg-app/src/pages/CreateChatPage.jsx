@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Parse from 'parse';
 import Header from '../components/Header';
 import Input from '../components/Input';
+import send from '../components/assets/send.svg';
+
 
 const CreateChatPage = () => {
   const { userId } = useParams();
@@ -76,15 +78,17 @@ const CreateChatPage = () => {
       <div className='page-body'>
         <Header type='withBackButton' pageTitle={otherUser ? otherUser.get('fullName') : 'Chat Room'} />
         <div className='container'>
-          <div>
+          <div className='empty-chat'>
+          </div>
+          <div className='input-and-send '>
             <Input
               type='text'
               value={newMessageContent}
               onChange={(e) => setNewMessageContent(e.target.value)}
-              placeholder='type your Chat...'
+              placeholder='Type your message...'
             />
             <button className='primary-button' onClick={handleSendMessage}>
-              Send
+              <img src={send} alt='send'></img>
             </button>
           </div>
         </div>
