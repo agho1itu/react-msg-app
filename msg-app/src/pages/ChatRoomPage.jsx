@@ -212,6 +212,12 @@ const ChatRoomPage = () => {
       console.error('Error handling block user:', error);
     }
   };
+
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const options = { weekday: 'short', hour: 'numeric', minute: 'numeric' };
+    return date.toLocaleString('en-US', options);
+  };
   
   return (
     <div className='pageBody'>
@@ -227,6 +233,7 @@ const ChatRoomPage = () => {
                 {highlightScamWords(msg.get('content'))}
               </p>
               <p className='sender-id'>{msg.get('sender').get('fullName')}</p>
+              <p className='timestamp-inchat'>{formatTimestamp(msg.get('createdAt'))}</p>
             </div>
           ))}
           {/* Create an invisible div that serves as a reference to scroll to */}
