@@ -107,14 +107,16 @@ const NewChatPage = () => {
           const chatLink = existingChat ? `/chat_room/${existingChat.id}` : `/new_chat_room/${user.id}`;
           const linkText = existingChat ? `${userFullName}` : userFullName;
           return (
-            <div className='chat-preview' key={user.id}>
-              <div className="profile-pic">{user.get('fullName')[0]}</div>
-              <Link to={chatLink}>{linkText}</Link>
-            </div>
+            <Link className='chat-box' to={chatLink}>
+              <div className='chat-preview' key={user.id}>
+                <div className="profile-pic">{user.get('fullName')[0]}</div>
+                {linkText}
+              </div>
+            </Link>
           );
         })}
       </div>
-    </div>
+    </div >
   );
 };
 
