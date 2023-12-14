@@ -85,7 +85,7 @@ const NewChatPage = () => {
   );
 
   return (
-    <div className='pageBody'>
+    <div className='page-body'>
       <Header type='withBackButton' pageTitle='New Chat' />
       <div className='container'>
         <div className="search-container">
@@ -94,7 +94,7 @@ const NewChatPage = () => {
             placeholder="Search Contacts"
             value={searchTerm}
             onChange={handleSearch}
-            className="searchInput"
+            className="search-input"
             style={{
               backgroundImage: `url(${searchIcon})`, // Set background image
               backgroundRepeat: 'no-repeat',
@@ -107,8 +107,8 @@ const NewChatPage = () => {
           const chatLink = existingChat ? `/chat_room/${existingChat.id}` : `/new_chat_room/${user.id}`;
           const linkText = existingChat ? `${userFullName}` : userFullName;
           return (
-            <div className='message-list' key={user.id}>
-              <div className="profilepic">{user.get('fullName')[0]}</div>
+            <div className='chat-preview' key={user.id}>
+              <div className="profile-pic">{user.get('fullName')[0]}</div>
               <Link to={chatLink}>{linkText}</Link>
             </div>
           );

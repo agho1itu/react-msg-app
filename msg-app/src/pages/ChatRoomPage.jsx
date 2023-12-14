@@ -220,14 +220,14 @@ const ChatRoomPage = () => {
   };
   
   return (
-    <div className='pageBody'>
+    <div className='page-body'>
       <Header type='withBackButton' pageTitle={otherUser ? otherUser.get('fullName') : 'Chat Room'} />
       <div className='container'>
         <div className='container-scroll'>
           {messages.map((msg) => (
             <div
               key={msg.id}
-              className={`message ${msg.get('sender').id === currentUser.id ? 'currentUser' : 'otherUser'}`}>
+              className={`message ${msg.get('sender').id === currentUser.id ? 'current-user' : 'other-user'}`}>
               <p>
                 {/* Render the modified message content with highlighted scam words */}
                 {highlightScamWords(msg.get('content'))}
@@ -246,8 +246,8 @@ const ChatRoomPage = () => {
           onChange={(e) => setNewMessageContent(e.target.value)}
           placeholder='Type your message...'
         />
-        <button className='primaryButton' onClick={handleSendMessage}>
-        <img src={send}></img>
+        <button className='primary-button' onClick={handleSendMessage}>
+        <img src={send} alt='send'></img>
         </button>
       </div>
     </div>
@@ -255,8 +255,8 @@ const ChatRoomPage = () => {
     showScamPopup && (
       <Popup open modal closeOnDocumentClick={false}>
         <div className="popup-container">
-          <div className='popup-bot'><img src={scambot}></img></div>
-          <div className="popup-header">Possible Scam Alert!</div>
+          <div className='popup-bot'><img src={scambot} alt='scambot'></img></div>
+          <h3 className="popup-header">Possible Scam Alert!</h3>
           <div className="popup-content">
               <p>Possible scam in your message, due to:</p>
               <p className='scam-word'>"{detectedScamWord}"</p>

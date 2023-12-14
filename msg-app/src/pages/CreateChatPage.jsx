@@ -73,7 +73,7 @@ const CreateChatPage = () => {
 
   return (
     <div>
-      <div className='pageBody'>
+      <div className='page-body'>
         <Header type='withBackButton' pageTitle={otherUser ? otherUser.get('fullName') : 'Chat Room'} />
         <div className='container'>
           <div>
@@ -83,7 +83,7 @@ const CreateChatPage = () => {
               onChange={(e) => setNewMessageContent(e.target.value)}
               placeholder='type your Chat...'
             />
-            <button className='primaryButton' onClick={handleSendMessage}>
+            <button className='primary-button' onClick={handleSendMessage}>
               Send
             </button>
           </div>

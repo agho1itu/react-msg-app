@@ -11,10 +11,10 @@ const Message = ({message}) => {
   return (
   // a parent container for message 
     <div className='message'>
-      <h4 className='profilepic'>{firstCharacter}</h4>
-      <div className="previewInfo">
+      <h4 className='profile-pic'>{firstCharacter}</h4>
+      <div className="preview-info">
         <h4>{message.sender}</h4>
-        <div className='previewInfoFlex'>
+        <div className='preview-info-flex'>
           <p>{messagePreview + '...'}</p>
           <p>{message.time}</p>
         </div>

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import WelcomePage from './pages/WelcomePage';
 import ChatListPage from './pages/ChatListPage';
 import ChatRoomPage from './pages/ChatRoomPage';
@@ -21,17 +21,6 @@ Parse.liveQueryServerURL = 'ws://safechat5.b4a.io';
 function App() {
   return (
     <BrowserRouter>
-      {/* Navigation Links 
-      <nav>
-        <Link to='/'>SignIn</Link>
-        <Link to='/signup'>SignUp</Link>
-        <Link to='/chat_list'>ChatList</Link>
-        <Link to='/chat_room'>Chat</Link>
-        <Link to='/new_chat'>NewChat</Link>
-        <Link to='/blocked'>Blocked</Link>
-      </nav>*/}
-
-      {/* Routes Configuration */}
       <Routes>
         <Route path='/' element={<WelcomePage />} />
         <Route path='/chat_list' element={<ChatListPage />} />

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Header from '../components/Header';
-import Parse from 'parse';
 import { Link } from 'react-router-dom';
+import Parse from 'parse';
+import Header from '../components/Header';
 import searchIcon from '../components/assets/search.svg'; // Import the SVG file
 
 
@@ -125,7 +125,7 @@ const ChatListPage = () => {
   };
 
   return (
-    <div className='pageBody'>
+    <div className='page-body'>
       <Header type='withIcons' pageTitle='Chat List' />
       <div className='container'>
         <h3 className='text-aligned-left'>Hi {currentUser.get('fullName')} 👋</h3>
@@ -135,7 +135,7 @@ const ChatListPage = () => {
             placeholder="Search Chats"
             value={searchTerm}
             onChange={handleSearch}
-            className="searchInput"
+            className="search-input"
             style={{
               backgroundImage: `url(${searchIcon})`,
               backgroundRepeat: 'no-repeat',
@@ -152,13 +152,13 @@ const ChatListPage = () => {
 
             return (
               <Link className='chat-box' to={`/chat_room/${chat.id}`}>
-                <div key={chat.id} className="message-list" >
-                  <div className="profilepic">{getOtherUserFullName(chat)[0]}</div>
+                <div key={chat.id} className="chat-preview" >
+                  <div className="profile-pic">{getOtherUserFullName(chat)[0]}</div>
                   <div className='chat-flex'>
-                      {getOtherUserFullName(chat)}
+                    {getOtherUserFullName(chat)}
 
-                    <div className='user-details'>
-                      <div className="previewInfo">{previewText}</div>
+                    <div className='chat-details'>
+                      <div className="preview-info">{previewText}</div>
                       <div className="timestamp">{formatTimestamp(recentMessages[chat.id]?.createdAt)}</div>
                     </div>
                   </div>

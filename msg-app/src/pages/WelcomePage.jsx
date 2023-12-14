@@ -5,9 +5,9 @@ import Form from '../components/Form'
 const WelcomePage = () => {
 
   return (
-    <div className='pageBody'>
+    <div className='page-body'>
       <h1>Welcome!</h1>
-      <div className='floatingContainer'>
+      <div className='floating-container'>
         <img src={logoImg} alt='Logo' />
         <h3>Sign into your account</h3>
         <Form type='SignIn' />

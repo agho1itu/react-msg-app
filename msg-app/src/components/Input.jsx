@@ -6,7 +6,7 @@ const Input = ({ value, onChange, type, placeholder, name, id }) => {
       onChange={onChange}
       type={type}
       placeholder={placeholder}
-      className='inputField'
+      className='input-field'
       name={name}
       id={id}
     />

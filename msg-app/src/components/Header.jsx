@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import rate_review from './assets/rate_review.svg';
 import arrow_back_ios from './assets/arrow_back_ios.svg'; 
-import back_hand from './assets/back_hand.svg';
+import block from './assets/block.svg';
 
 const Header = ({type, pageTitle}) => {
   return (
@@ -9,7 +9,7 @@ const Header = ({type, pageTitle}) => {
       <div className='header-left'>
         {type === 'withIcons' && (
             <Link to='/blocked'>
-              <img src={back_hand} alt='Blocked'/>
+              <img src={block} alt='Blocked'/>
             </Link>
         )}
         {type === 'withBackButton' && (

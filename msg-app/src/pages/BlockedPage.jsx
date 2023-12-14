@@ -7,7 +7,7 @@ const BlockedPage = () => {
 
   useEffect(() => {
     loadBlockedData();
-  }, []);
+  });
 
   const loadBlockedData = async () => {
     try {
@@ -43,15 +43,15 @@ const BlockedPage = () => {
 
 
   return (
-  <div className='pageBody'>
+  <div className='page-body'>
     <Header type='withBackButton' pageTitle='Blocked Contacts' />
     <div className='container'>
       {blockedUsers.length === 0 ? (
         <p>You have no blocked contacts</p>
       ) : (
         blockedUsers.map((user) => (
-          <div key={user.id} className="message-list">
-            <div className="profilepic">{user.get('blockedUser').get('fullName')[0]}</div>
+          <div key={user.id} className="chat-preview">
+            <div className="profile-pic">{user.get('blockedUser').get('fullName')[0]}</div>
             <div>{user.get('blockedUser').get('fullName')}</div>
             <button className='tertiary-button' onClick={() => unblockUser(user.get('blockedUser'))}>
               Unblock
