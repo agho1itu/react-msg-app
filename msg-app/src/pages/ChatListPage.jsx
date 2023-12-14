@@ -134,19 +134,21 @@ const ChatListPage = () => {
             const previewText = words.length > 5 ? `${words.slice(0, 5).join(' ')} ...` : recentContent;
 
             return (
-              <div key={chat.id} className="message-list">
-                <div className="profilepic">{getOtherUserFullName(chat)[0]}</div>
-                <div className='chat-flex'>
-                  <Link to={`/chat_room/${chat.id}`}>
-                    {getOtherUserFullName(chat)} </Link>
+              <Link className='chat-box' to={`/chat_room/${chat.id}`}>
+                <div key={chat.id} className="message-list" >
+                  <div className="profilepic">{getOtherUserFullName(chat)[0]}</div>
+                  <div className='chat-flex'>
+                      {getOtherUserFullName(chat)}
 
-                  <div className='user-details'>
-                    <div className="previewInfo">{previewText}</div>
-                    <div className="timestamp">{formatTimestamp(recentMessages[chat.id]?.createdAt)}</div>
+                    <div className='user-details'>
+                      <div className="previewInfo">{previewText}</div>
+                      <div className="timestamp">{formatTimestamp(recentMessages[chat.id]?.createdAt)}</div>
+                    </div>
                   </div>
-                </div>
 
-              </div>
+                </div>
+              </Link>
+
             );
           })}
         </div>

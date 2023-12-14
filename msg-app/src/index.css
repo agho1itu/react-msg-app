@@ -233,6 +233,14 @@ display: flex;
 }
 
 /* ChatListPage.css */
+
+.chat-box {
+  text-decoration: none;
+}
+.chat-box:active {
+  background-color:#EAEAEA;
+}
+
 .search-container {
   display: flex;
   width: 90%;
