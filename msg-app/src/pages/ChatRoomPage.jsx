@@ -23,8 +23,8 @@ const ChatRoomPage = () => {
 
   useEffect(() => {
     liveQuery = new Parse.LiveQueryClient({
-      applicationId: 'W4dCUDFH6etnlwT6NKFTixTxWFw5E0C24uAcnv6N',
-      serverURL: 'ws://safechat4.b4a.io',
+      applicationId: 'xA1c6irebKhRyD4K6eYECBkiPLhfQjJllKsXHDxo',
+      serverURL: 'ws://safechat5.b4a.io',
     });
 
     liveQuery.open();
