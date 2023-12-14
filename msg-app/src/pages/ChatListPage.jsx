@@ -124,14 +124,6 @@ const ChatListPage = () => {
     return date.toLocaleString('en-US', options);
   };
 
-  const truncateMessage = (message) => {
-    const words = message.split(' ');
-    if (words.length > 7) {
-      return words.slice(0, 7).join(' ') + '...';
-    }
-    return message;
-  };
-
   return (
     <div className='pageBody'>
       <Header type='withIcons' pageTitle='Chat List' />
@@ -156,7 +148,7 @@ const ChatListPage = () => {
           {filteredChats.map(chat => {
             const recentContent = recentMessages[chat.id] ? recentMessages[chat.id].get('content') : '';
             const words = recentContent.split(' ');
-            const previewText = words.length > 5 ? `${words.slice(0, 5).join(' ')} ...` : recentContent;
+            const previewText = words.length > 5 ? `${words.slice(0, 5).join(' ')}...` : recentContent;
 
             return (
               <Link className='chat-box' to={`/chat_room/${chat.id}`}>
