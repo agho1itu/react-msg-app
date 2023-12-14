@@ -66,8 +66,7 @@ const NewChatPage = () => {
   };
 
   // Function to check if the other user in the chat is blocked
-  const isBlockedUser = async ({ existingChat }) => {
-    await loadBlockedData(); // Wait for blockedUsers to be populated
+  const isBlockedUser = ({ existingChat }) => {
     if (!existingChat) {
       return false; // If there is no existing chat, the user is not blocked
     }
@@ -89,20 +88,20 @@ const NewChatPage = () => {
     <div className='pageBody'>
       <Header type='withBackButton' pageTitle='New Chat' />
       <div className='container'>
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search Contacts"
-          value={searchTerm}
-          onChange={handleSearch}
-          className="searchInput"
-          style={{
-            backgroundImage: `url(${searchIcon})`, // Set background image
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: '305px 50%', // Adjust position of the icon
-          }}
-        />
-      </div>
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search Contacts"
+            value={searchTerm}
+            onChange={handleSearch}
+            className="searchInput"
+            style={{
+              backgroundImage: `url(${searchIcon})`, // Set background image
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: '305px 50%', // Adjust position of the icon
+            }}
+          />
+        </div>
         {filteredChats.map(({ user, existingChat }) => {
           const userFullName = user.get('fullName');
           const chatLink = existingChat ? `/chat_room/${existingChat.id}` : `/new_chat_room/${user.id}`;
