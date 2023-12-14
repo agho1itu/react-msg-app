@@ -9,10 +9,12 @@ import searchIcon from '../components/assets/search.svg'; // import the SVG file
 const NewChatPage = () => {
   const [userList, setUserList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-
+  const [blockedUsers, setBlockedUsers] = useState([]);
+  const currentUser = Parse.User.current();
 
   useEffect(() => {
     loadChatData();
+    loadBlockedData();
   }, []);
 
   const loadChatData = async () => {
@@ -44,15 +46,43 @@ const NewChatPage = () => {
     }
   };
 
+  const loadBlockedData = async () => {
+    try {
+      const currentUser = await Parse.User.currentAsync();
+      const listOfBlockedUsers = new Parse.Query('Block');
+      listOfBlockedUsers.equalTo('blockingUser', currentUser);
+      listOfBlockedUsers.include('blockingUser', 'blockedUser');
+
+      const blockedUsersArray = await listOfBlockedUsers.find();
+      setBlockedUsers(blockedUsersArray);
+    } catch (error) {
+      console.error('Error fetching blocked users:', error);
+    }
+  };
+
   //function to handle changes in the search input
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
+  // Function to check if the other user in the chat is blocked
+  const isBlockedUser = async ({ existingChat }) => {
+    await loadBlockedData(); // Wait for blockedUsers to be populated
+    if (!existingChat) {
+      return false; // If there is no existing chat, the user is not blocked
+    }
+
+    const otherUserId = existingChat.get("p1").id === currentUser.id
+      ? existingChat.get("p2").id
+      : existingChat.get("p1").id;
+
+    return blockedUsers.some(blockedUser => blockedUser.get("blockedUser").id === otherUserId);
+  };
+
   const filteredChats = userList.filter(chat =>
     chat.user.get('fullName')
       .toLowerCase()
-      .includes(searchTerm.toLowerCase())
+      .includes(searchTerm.toLowerCase()) && !isBlockedUser(chat)
   );
 
   return (

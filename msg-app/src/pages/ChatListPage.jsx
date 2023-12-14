@@ -10,10 +10,12 @@ const ChatListPage = () => {
   const [chatList, setChatList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const currentUser = Parse.User.current();
+  const [blockedUsers, setBlockedUsers] = useState([]);
 
   // Load chat data when the component mounts
   useEffect(() => {
     loadChatData();
+    loadBlockedData();
   }, []);
 
   // Function to load chat data from the Parse database
@@ -38,6 +40,20 @@ const ChatListPage = () => {
       console.error('Error fetching chats:', error);
     }
   }
+
+  const loadBlockedData = async () => {
+    try {
+      const currentUser = await Parse.User.currentAsync();
+      const listOfBlockedUsers = new Parse.Query('Block');
+      listOfBlockedUsers.equalTo('blockingUser', currentUser);
+      listOfBlockedUsers.include('blockingUser', 'blockedUser');
+
+      const blockedUsersArray = await listOfBlockedUsers.find();
+      setBlockedUsers(blockedUsersArray);
+    } catch (error) {
+      console.error('Error fetching blocked users:', error);
+    }
+  };
 
   // Function to retrieve the full name of the other user in the chat
   const getOtherUserFullName = (chat) => {
@@ -86,11 +102,20 @@ const ChatListPage = () => {
     });
   }, [chatList]);
 
+  // Function to check if the other user in the chat is blocked
+  const isBlockedUser = (chat) => {
+    const otherUserId = chat.get("p1").id === currentUser.id
+      ? chat.get("p2").id
+      : chat.get("p1").id;
+
+    return blockedUsers.some(blockedUser => blockedUser.get("blockedUser").id === otherUserId);
+  };
+
   // Filter chats based on the search term
   const filteredChats = chatList.filter(chat =>
     getOtherUserFullName(chat)
       .toLowerCase()
-      .includes(searchTerm.toLowerCase())
+      .includes(searchTerm.toLowerCase()) && !isBlockedUser(chat)
   );
 
   const formatTimestamp = (timestamp) => {
