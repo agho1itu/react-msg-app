@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
-import Header from '../components/Header';
-import Input from '../components/Input';
 import Parse from 'parse';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Popup from 'reactjs-popup';
+import Header from '../components/Header';
+import Input from '../components/Input';
 import scambot from '../components/assets/scambot.svg';
 import send from '../components/assets/send.svg';
 
@@ -30,9 +30,9 @@ const ChatRoomPage = () => {
     liveQuery.open();
     console.log('WebSocket connection opened');
 
-    const query = new Parse.Query('Message');
-    query.equalTo('chat', Parse.Object.extend('Chat').createWithoutData(chatId));
-    const subscription = liveQuery.subscribe(query);
+    const liveMessageQuery = new Parse.Query('Message');
+    liveMessageQuery.equalTo('chat', Parse.Object.extend('Chat').createWithoutData(chatId));
+    const subscription = liveQuery.subscribe(liveMessageQuery);
 
     subscription.on('create', (object) => {
       setMessages((prevMessages) => [...prevMessages, object]);
@@ -80,10 +80,9 @@ const ChatRoomPage = () => {
     }
   };
 
-  //i replaced the 'handleSendMessage' function in the code -> now it checks if 'newMessageContent' is empty before sending
   const handleSendMessage = async () => {
     try {
-      if (newMessageContent.trim() !== '') { // Check if message content is not empty or just whitespace
+      if (newMessageContent.trim() !== '') { // check if message content is not empty 
         const Message = new Parse.Object('Message');
         Message.set('sender', currentUser);
         Message.set('receiver', otherUser);
@@ -95,14 +94,13 @@ const ChatRoomPage = () => {
         setNewMessageContent('');
       } else {
         console.log('Message content is empty!');
-        // Optionally, you can show an alert or provide feedback to the user that the message cannot be empty
       }
     } catch (error) {
       console.error('Error sending message:', error);
     }
   };
 
-  const ScamWords = ['mitid', 'cpr', 'account'];
+  const ScamWords = ['mitid', 'cpr', 'account']; // we hardcoded the scamwords for now
 
   const handleScamCheck = (newMessage) => {
     if (newMessage && newMessage.get('sender').id === otherUser.id) {
@@ -140,6 +138,7 @@ const ChatRoomPage = () => {
     });
   };
 
+  // checks on rendering if there is scam in latest message, if not srcoll to bottom
   useEffect(() => {
     if (messages.length > 0) {
       const lastMessage = messages[messages.length - 1];
@@ -148,25 +147,24 @@ const ChatRoomPage = () => {
     scrollToBottom();
   }, [messages]);
 
-  //useRef is a React Hook: helps remember and control the position of the invisible <div> element, ensuring that whenever new messages arrive, the page scrolls down to display the latest message at the bottom of the chat container.
-  //Create a reference to the bottom of the chat container
+  // useRef is a React Hook: helps remember and control the position of the invisible <div> element, ensuring that whenever new messages arrive, the page scrolls down to display the latest message at the bottom of the chat container.
+  // create a reference to the bottom of the chat container
   const messagesEndRef = useRef(null);
-  // Function to scroll to the bottom of the chat container
+  // function to scroll to the bottom of the chat container
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
  
-  // blocking user by current user
+  // blocked user by currentUser
   const isBlocked = async () => {
     try {
       const Block = Parse.Object.extend('Block');
-      const query = new Parse.Query(Block);
+      const BlockedUsersQuery = new Parse.Query(Block);
   
-      query.equalTo('blockingUser', currentUser);
-      query.equalTo('blockedUser', otherUser);
+      BlockedUsersQuery.equalTo('blockingUser', currentUser);
+      BlockedUsersQuery.equalTo('blockedUser', otherUser);
   
-      const result = await query.find();
-      console.log('Query result:', result);
+      const result = await BlockedUsersQuery.find();
   
       // Check if the result array is empty
       return result.length > 0;
@@ -176,6 +174,7 @@ const ChatRoomPage = () => {
     }
   };
   
+  // function to block a user by currentUser - add to parse class Block
   const blockUser = async () => {
     try {
       const Block = new Parse.Object('Block');
@@ -192,18 +191,15 @@ const ChatRoomPage = () => {
   };
 
   const navigate = useNavigate();
-
-  const handleBlockUser = async () => {
-    try {
-      console.log('handleBlockUser called');
   
+  const handleBlockUser = async () => {
+    try {  
       const isUserBlocked = await isBlocked();
       console.log('Is user blocked:', isUserBlocked);
   
       if (!isUserBlocked) {
         await blockUser();
         console.log('User blocked successfully');
-        // Consider updating the UI to reflect the blocked state
         navigate('/chat_list');
       } else {
         console.log('User is already blocked');

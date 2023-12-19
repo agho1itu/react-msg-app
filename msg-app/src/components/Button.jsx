@@ -1,5 +1,3 @@
-//Should be deleted
-
 const Button = ({type, text, className}) => {
   
   return (

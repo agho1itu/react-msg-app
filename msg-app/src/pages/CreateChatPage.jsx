@@ -37,36 +37,35 @@ const CreateChatPage = () => {
 
   const handleSendMessage = async () => {
     try {
-      if (newMessageContent.trim() !== '') { // Check if message content is not empty or just whitespace
-        // Create a new chat between current user and other user
+      if (newMessageContent.trim() !== '') {
+        // create a new chat between current user and other user
         const Chat = new Parse.Object('Chat');
         Chat.set('p1', currentUser);
         Chat.set('p2', otherUser);
 
-        // Save chat to Back4App
+        // save chat to Back4App
         const newChat = await Chat.save();
 
-        // Set the chatId in the state
+        // set the chatId
         setChatId(newChat.id);
 
-        // Create a new message
+        // create a new message
         const Message = new Parse.Object('Message');
         Message.set('sender', currentUser);
         Message.set('receiver', otherUser);
         Message.set('content', newMessageContent);
         Message.set('chat', Parse.Object.extend('Chat').createWithoutData(newChat.id));
 
-        // Save message to Back4App
+        // save message to Back4App
         await Message.save();
 
-        // Clear the input field
+        // clear the input field
         setNewMessageContent('');
 
-        // Redirect to the ChatRoomPage with the correct chatId
+        // redirect to the ChatRoomPage with the correct chatId
         navigate(`/chat_room/${newChat.id}`);
       } else {
         console.log('Message content is empty!');
-        // Optionally, you can show an alert or provide feedback to the user that the message cannot be empty
       }
     } catch (error) {
       console.error('Error handling send message:', error);

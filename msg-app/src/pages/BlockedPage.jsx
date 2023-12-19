@@ -1,6 +1,6 @@
+import Parse from "parse";
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
-import Parse from "parse";
 
 const BlockedPage = () => {
   const [blockedUsers, setBlockedUsers] = useState([]);

@@ -1,5 +1,5 @@
-import logoImg from '../components/assets/Logo.svg';
 import { Link } from 'react-router-dom'
+import logoImg from '../components/assets/Logo.svg';
 import Form from '../components/Form'
 
 const WelcomePage = () => {

@@ -1,3 +1,4 @@
+import Parse from 'parse';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import WelcomePage from './pages/WelcomePage';
 import ChatListPage from './pages/ChatListPage';
@@ -6,7 +7,6 @@ import CreateChatPage from './pages/CreateChatPage';
 import SignupPage from './pages/SignupPage';
 import BlockedPage from './pages/BlockedPage';
 import NewChatPage from './pages/NewChatPage';
-import Parse from 'parse';
 
 // Parse initialization
 const PARSE_APPLICATION_ID = 'xA1c6irebKhRyD4K6eYECBkiPLhfQjJllKsXHDxo';

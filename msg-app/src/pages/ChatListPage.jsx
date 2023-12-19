@@ -11,6 +11,7 @@ const ChatListPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const currentUser = Parse.User.current();
   const [blockedUsers, setBlockedUsers] = useState([]);
+  const [recentMessages, setRecentMessages] = useState({});
 
   // Load chat data when the component mounts
   useEffect(() => {
@@ -74,7 +75,7 @@ const ChatListPage = () => {
     setSearchTerm(event.target.value);
   };
 
-  // Function to fetch the recent message for a specific chat
+  // Function to fetch the recent message for a specific chat to display in preview
   const fetchRecentMessage = async (chat) => {
     const query = new Parse.Query('Message');
     query.equalTo('chat', chat);
@@ -83,17 +84,14 @@ const ChatListPage = () => {
     return await query.first();
   };
 
-  // State to hold recent messages for each chat
-  const [recentMessages, setRecentMessages] = useState({});
-
   useEffect(() => {
     // Retrieve recent messages for each chat
-    const promises = chatList.map(async (chat) => {
+    const recentMessagesPromises = chatList.map(async (chat) => {
       const recentMessage = await fetchRecentMessage(chat);
       return { chat, recentMessage };
     });
 
-    Promise.all(promises).then((chatsWithRecentMessages) => {
+    Promise.all(recentMessagesPromises).then((chatsWithRecentMessages) => {
       const messagesMap = {};
       chatsWithRecentMessages.forEach(({ chat, recentMessage }) => {
         messagesMap[chat.id] = recentMessage;
