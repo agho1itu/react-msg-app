@@ -1,10 +1,12 @@
 /*Fonts*/
 @import url('https://fonts.googleapis.com/css2?family=Alata&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+/* Global styling */
 * {
   border: none;
   margin: 0;
   padding: 0;
+  font-size: 15px;
 }
 
 body {
@@ -14,191 +16,368 @@ body {
   color: #222222;
 }
 
+a {
+  color: #222222;
+  text-decoration: none;
+  font-weight: 600;
+}
+
 p {
-  font-size: 15px;
+  font-size: 14px;
+}
+
+h1, h2 {
+  color: #F3F7FA;
+  font-family: 'Alata', sans-serif;
 }
 
 h1 {
-  color: #F3F7FA;
-  font-family: 'Alata', sans-serif;
   font-size: 32px;
   font-weight: 500;
 }
 
 h2 {
-  color: #F3F7FA;
-  font-family: 'Alata', sans-serif;
   font-size: 24px;
+}
+
+h3, h4 {
+  font-weight: 600;
 }
 
 h3 {
   font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+.text-aligned-left {
+  width: 85%;
+  padding: 20px 20px 10px;
+}
+
+/* button styling */
+.primary-button, .secondary-button, .tertiary-button {
+  border-radius: 40px;
+  padding: 15px;
   font-weight: 600;
-  margin: 0;
 }
 
-.onlinestatus-online {
-  width: 20px;
-  height: 20px; 
-  background-color: #25BB3A;
-  border-radius: 50%;
+.primary-button, .secondary-button {
+  color: #FAF7F7;
 }
 
+.primary-button {
+  background: #4B957B;
+}
+button:hover {
+  background: #8EB9AA;
+}
+button:active {
+  background: #9EBEB3;
+}
 
-/* Styling spesific to welcome page */
-.welcomePage, .signupPage {
+.secondary-button, .tertiary-button{
+  background: #222222;
+  margin: 5px;
+  font-size: 12px;
+}
+
+.secondary-button:hover {
+  background: #3D3D3D;
+}
+.secondary-button:active {
+  background: #575757;
+}
+
+.tertiary-button {
+  background: #DBDBDB;
+}
+.tertiary-button:hover {
+  background: #DAD9DE;
+}
+.tertiary-button:active {
+  background: #ACACAD;
+}
+
+/* page-body is the parent of all children */
+.page-body {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
   height: 100vh;
-  /* Makes the .app takes up the entire viewport height */
 }
 
-.containerWelcome {
+/* header styling */
+.header {
+  width: 80%;
+  height: 80px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background: #FAF7F7;
-  width: 80%;
-  min-width: 310px;
-  /* We need to come back to how to make the height responsive */
-  height: 418px;
-  padding: 72px 10px;
-  border-radius: 37px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
 }
 
-.loginFields {
-  display: flex;
-  flex-direction: column;
+/* sign-in/sign-up styling */
+.form {
   width: 85%;
 }
 
-.inputField {
+.fields {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-field {
+  font-size: 14px;
   padding: 15px;
   margin-bottom: 20px;
   border-radius: 40px;
   background: #F2ECEC;
-  font-size: 14px;
-  font-weight: 400;
+  color: #575757;
+}
+.input-field:hover {
+  background-color: #EAEAEA;
+} 
+.input-field:focus {
+  color: #222222;
 }
 
-.primaryButton {
-  padding: 15px;
-  border-radius: 40px;
-  background: #4B957B;
-  color: #FAF7F7;
-  font-size: 16px;
-  font-weight: 600;
+.error-message {
+  font-size: 12px;
+  color: red;
+  margin-bottom: 9px;
+  margin-left: 8px;
 }
 
-.smallHeader {
-  font-size: 16px;
-  font-weight: 700;
-}
-
-/* Styling spesific to Message List Page */
-.msglistbody {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.msglistheader {
-  margin-top: 4%;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-}
-
-.msglistcontainer {
+/* container styling */
+.container, .floating-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 6%;
-  width: 100%;
-  /* We need to come back to how to make the height responsive */
-  height: 800px; 
   background: #FAF7F7;
-  border-radius: 37px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
 }
 
-.msglistcontainerheader {
-  width: 80%;
-  display: flex;
+.container {
+  width: 100%;
+  height: 100vh; 
+  border-top-right-radius: 37px;
+  border-top-left-radius: 37px;
+  overflow: auto;
+}
+
+.floating-container {
   justify-content: space-between;
-  align-items: center;
-  padding: 20px 35px 20px;
+  width: 80%;
+  min-width: 310px;
+  height: 418px;
+  border-radius: 37px;
+  padding: 72px 10px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-.msglistuseronline{
+/* Chat-list styling */
+.chat-list, .blocked-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.chat-box {
+  text-decoration: none;
+  font-weight: 400;
+  width: 90%;
+  margin-top: 14px;
+}
+.chat-box:active {
+  background-color:#EAEAEA;
+}
+
+.chat-flex {
+  width: 100%;
+}
+
+.chat-preview, .blocked-element {
   display: flex;
   align-items: center;
-  justify-content: space-between ;
+}
+
+.chat-details {
+  display: flex;
+}
+
+.preview-info {
+  width: 100%;
+  display: flex;
+  color:#777;
+}
+
+.timestamp {
+  font-size: 12px;
+  min-width: 30%;
+  color:#ACACAD;
+}
+
+.profile-pic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  min-height: 50px; 
+  background-color: #629DD3;
+  border-radius: 50%;
+  margin-right: 10px;
+  color: #FAF7F7;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+/* blocked list styling */
+.blocked-element {
+  margin-top: 14px;
+  width: 90%;
+  justify-content: space-between;
+}
+
+.blocked-flex {
+  display: flex;
+  align-items: center;
+}
+
+.no-blocked {
+  margin: 50px;
+}
+
+
+/* search styling */
+.search-container {
+  display: flex;
+  width: 90%;
+  height: 50px;
+  padding: 15px;
+}
+
+.search-input {
+  font-size: 14px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 50px;
+  color: #3D3D3D;
+  background-color: #E8E8EA;
+}
+
+/* New char room */
+.empty-chat {
+  height: 80vh;
+}
+
+/* chat-room styling */
+.container-scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  padding-top: 10px;
+  width: 100%;
+  height: 90%;
+  overflow: auto;
 }
 
 .message {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 15px;
+  max-width: 70%;
+  box-shadow: 5px 5px 5px #DBDBDB;
+}
+
+.input-and-send .input-field {
+  margin: 0;
+  width: 65%;
+}
+
+.input-and-send {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 90%;
-  margin: 5px;
+  justify-content: space-around;
+  width: 100%;
+  margin: 20px;
 }
 
-.profilepic {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px; 
+.current-user {
+  align-self: flex-end;
   background-color: #88B4DD;
-  border-radius: 50%;
-}
-
-.messageNamePreview {
-  padding-left: 15px;
-}
-
-.search{
-  width: 100%;
-}
-
-.searchInputs {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.searchInput{
   padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 40px;
-  width: 80%;
-  background: #F2ECEC;
-  font-size: 14px;
-  font-weight: 400;
+  margin-right: 5px;
+  border-radius: 20px;
+  border-radius: 20px 20px 5px 20px;
 }
 
-/*Styling for Signup Page*/
+.other-user {
+  align-self: flex-start;
+  background-color: #EAEAEA;
+  padding: 15px;
+  margin-left: 5px;
+  border-radius: 20px;
+  border-radius: 20px 20px 20px 5px;
+}
 
-.signupContainer {
+.sender-id, .timestamp-inchat{
+  color: #575757;
+  font-size: 10px;
+}
+
+.sender-id {
+  padding-top:10px;
+}
+
+/* popup styling */
+.popup-container {
+  background-color: #FAF7F7;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  background: #FAF7F7;
-  width: 80%;
-  min-width: 310px;
-  /* We need to come back to how to make the height responsive */
-  height: 418px;
-  padding: 72px 10px;
-  border-radius: 37px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  padding: 20px;
+  border-radius: 40px;
+  box-shadow: 200px 200px 200px 500px rgba(0, 0, 0, 0.7);
+  margin: 30px;
 }
+
+.popup-header{
+  padding: 15px 0px 15px 0px;
+  text-align: center;
+}
+.popup-bot {
+  background-color: #629DD3;
+  border-radius: 50%;
+  width:fit-content;
+  padding: 7px 9px;
+}
+
+.popup-content {
+  padding-bottom: 20px;
+  text-align: center;
+}
+.popup-actions {
+  display: flex;
+  width: 100%;
+  justify-content: center; 
+  text-align: center;
+  padding-bottom: 10px;
+}
+.scam-word {
+  font-weight: 700;
+  font-size: 20px;
+  padding: 20px;
+}
+
+.highlighted {
+  background-color: yellow;
+  font-weight: 600;
+}
+
+
 
