@@ -8,6 +8,7 @@ In our app you will be able create a user, make chats with other users, send and
   3. Ensure you have installed all our depedency, type the following command in terminal: 'npm i'
   4. Wait until intallation is complete
   5. Now you can launch the app by typing: 'npm start'
+  6. Please make sure to view our app in mobile view (Iphone 12 pro)
 
 **To test our app we suggest this approach:**
   1. Create Two Users: 
