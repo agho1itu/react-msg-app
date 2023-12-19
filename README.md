@@ -1,6 +1,6 @@
 **Hi and welcome to SafeChat!**
 
-In our app you will be able create a user, make chats with other user, send and recieve real time messages and come back to your message thread in chat list. SafeChats main purpose is to help protect you from scam and if you a revieced message includes a word likely to be scam, we will notify you. You can block a user in these cases, but if you would at a later time unblock them, just navigate to your blocked users and unbolck them.
+In our app you will be able create a user, make chats with other user, send and recieve real time messages and come back to your message thread in chat list. SafeChats main purpose is to help protect you from scam and if you revieced a message that includes a word likely to be scam, we will notify you. You can block a user in these cases, but if you would at a later time unblock them, just navigate to your blocked users and unbolck them.
 
 **To launch our app, please do the following:**
   1. Clone the repository.
