@@ -5,7 +5,7 @@ In our app you will be able create a user, make chats with other user, send and 
 **To launch our app, please do the following:**
   1. Clone the repository.
   2. Our app is sadly nested, use the following command in terminal: 'cd msg-app'
-  3. Ensure you have installed all our depedency, type the following commandin terminal: 'npm i'
+  3. Ensure you have installed all our depedency, type the following command in terminal: 'npm i'
   4. Wait until intallation is complete
   5. Now you can launch the app by typing: 'npm start'
 
